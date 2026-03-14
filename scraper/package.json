@@ -1,0 +1,14 @@
+{
+  "name": "sg-lottery-scraper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scrape latest 4D and TOTO results from Singapore Pools",
+  "scripts": {
+    "scrape": "node scrape.js",
+    "scrape:4d": "node scrape.js 4d",
+    "scrape:toto": "node scrape.js toto"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  }
+}

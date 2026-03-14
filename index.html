@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SG Lottery Predictor — 4D &amp; TOTO</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <!-- ===== Header ===== -->
+    <header class="header">
+      <div class="header-brand">
+        <span class="logo">🎰</span>
+        <div>
+          <h1>SG Lottery Predictor</h1>
+          <div class="subtitle">4D &amp; TOTO — AI-Powered Analysis Engine</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button
+          class="btn btn-secondary btn-sm"
+          id="btnRefreshData"
+          title="Reload data"
+        >
+          🔄 Reload
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== Tab Navigation ===== -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
+      <button class="tab-btn" data-tab="predict4d">🎯 4D Predict</button>
+      <button class="tab-btn" data-tab="predictToto">🍀 TOTO Predict</button>
+      <button class="tab-btn" data-tab="analysis">📈 Analysis</button>
+      <button class="tab-btn" data-tab="logs">📋 Prediction Log</button>
+    </nav>
+
+    <!-- ===== Main Content ===== -->
+    <div class="main-content">
+      <!-- ========== DASHBOARD ========== -->
+      <div class="tab-panel active" id="panel-dashboard">
+        <div class="grid-2">
+          <!-- Latest 4D -->
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">🎯</span> Latest 4D Draw
+            </div>
+            <div class="draw-display" id="latest4D">
+              <div class="loading-overlay">
+                <div class="spinner"></div>
+                <span>Loading...</span>
+              </div>
+            </div>
+          </div>
+          <!-- Latest TOTO -->
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">🍀</span> Latest TOTO Draw
+            </div>
+            <div class="draw-display" id="latestToto">
+              <div class="loading-overlay">
+                <div class="spinner"></div>
+                <span>Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">📊</span> Data Overview
+          </div>
+          <div class="stat-grid" id="dataStats">
+            <div class="stat-box">
+              <div class="stat-value" id="stat4DCount">—</div>
+              <div class="stat-label">4D Draws</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="statTotoCount">—</div>
+              <div class="stat-label">TOTO Draws</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="statPredictions">—</div>
+              <div class="stat-label">Predictions Made</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="statHitRate">—</div>
+              <div class="stat-label">Hit Rate</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">⚡</span> Quick Generate
+          </div>
+          <div class="grid-2">
+            <div>
+              <button
+                class="btn btn-primary"
+                id="btnQuick4D"
+                style="width: 100%"
+              >
+                🎯 Generate 4D Numbers
+              </button>
+            </div>
+            <div>
+              <button
+                class="btn btn-primary"
+                id="btnQuickToto"
+                style="width: 100%"
+              >
+                🍀 Generate TOTO Numbers
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 4D PREDICT ========== -->
+      <div class="tab-panel" id="panel-predict4d">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🎯</span> 4D Number Generator
+          </div>
+          <div class="predict-controls">
+            <label
+              >Count:
+              <select id="count4D">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+              </select>
+            </label>
+            <label
+              >History:
+              <select id="history4D">
+                <option value="30">30 draws</option>
+                <option value="50" selected>50 draws</option>
+                <option value="100">100 draws</option>
+              </select>
+            </label>
+            <button class="btn btn-primary" id="btnGenerate4D">
+              🚀 Generate Predictions
+            </button>
+            <button
+              class="btn btn-secondary btn-sm"
+              id="btnSave4D"
+              style="display: none"
+            >
+              💾 Save to Log
+            </button>
+          </div>
+          <div id="results4D">
+            <div class="empty-state">
+              <div class="icon">🎯</div>
+              <p>Configure settings and click Generate to get 4D predictions</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analysis Summary -->
+        <div class="card" id="analysis4DCard" style="display: none">
+          <div class="card-title">
+            <span class="icon">🔍</span> Analysis Summary
+          </div>
+          <div id="analysis4DSummary"></div>
+        </div>
+      </div>
+
+      <!-- ========== TOTO PREDICT ========== -->
+      <div class="tab-panel" id="panel-predictToto">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🍀</span> TOTO Number Generator
+          </div>
+          <div class="predict-controls">
+            <label
+              >Sets:
+              <select id="countToto">
+                <option value="3">3 sets</option>
+                <option value="5" selected>5 sets</option>
+                <option value="8">8 sets</option>
+                <option value="10">10 sets</option>
+              </select>
+            </label>
+            <label
+              >History:
+              <select id="historyToto">
+                <option value="20">20 draws</option>
+                <option value="40" selected>40 draws</option>
+                <option value="80">80 draws</option>
+              </select>
+            </label>
+            <button class="btn btn-primary" id="btnGenerateToto">
+              🚀 Generate Predictions
+            </button>
+            <button
+              class="btn btn-secondary btn-sm"
+              id="btnSaveToto"
+              style="display: none"
+            >
+              💾 Save to Log
+            </button>
+          </div>
+          <div id="resultsToto">
+            <div class="empty-state">
+              <div class="icon">🍀</div>
+              <p>
+                Configure settings and click Generate to get TOTO predictions
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Ranked Numbers -->
+        <div class="card" id="totoRankCard" style="display: none">
+          <div class="card-title">
+            <span class="icon">🏆</span> Top Ranked Numbers (1-49)
+          </div>
+          <div id="totoRankings"></div>
+        </div>
+      </div>
+
+      <!-- ========== ANALYSIS ========== -->
+      <div class="tab-panel" id="panel-analysis">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">🔥</span> 4D Hot &amp; Cold Numbers
+            </div>
+            <div class="chart-container">
+              <canvas id="chart4DHotCold"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">🔥</span> TOTO Number Frequency
+            </div>
+            <div class="chart-container">
+              <canvas id="chartTotoFreq"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">📉</span> 4D Sum Distribution
+            </div>
+            <div class="chart-container"><canvas id="chart4DSum"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">📉</span> TOTO Sum Distribution
+            </div>
+            <div class="chart-container">
+              <canvas id="chartTotoSum"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">⏳</span> TOTO Overdue Numbers
+          </div>
+          <div class="chart-container">
+            <canvas id="chartTotoOverdue"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🧪</span> Anomaly Report
+          </div>
+          <div id="anomalyReport">
+            <div class="empty-state">
+              <p>Run analysis to see anomaly detection results</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== LOGS ========== -->
+      <div class="tab-panel" id="panel-logs">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">📋</span> Prediction History
+            <div style="margin-left: auto; display: flex; gap: 0.5rem">
+              <button class="btn btn-secondary btn-sm" id="btnExportLogs">
+                📤 Export
+              </button>
+              <button class="btn btn-secondary btn-sm" id="btnImportLogs">
+                📥 Import
+              </button>
+              <button class="btn btn-danger btn-sm" id="btnClearLogs">
+                🗑️ Clear
+              </button>
+            </div>
+          </div>
+
+          <!-- Accuracy Dashboard -->
+          <div class="stat-grid" style="margin-bottom: 1rem">
+            <div class="stat-box">
+              <div class="stat-value" id="logTotal4D">0</div>
+              <div class="stat-label">4D Predictions</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="logHits4D">0</div>
+              <div class="stat-label">4D Hits</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="logTotalToto">0</div>
+              <div class="stat-label">TOTO Sets</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="logBestToto">0</div>
+              <div class="stat-label">TOTO Best Match</div>
+            </div>
+          </div>
+
+          <div id="logTableWrap">
+            <div class="empty-state">
+              <div class="icon">📋</div>
+              <p>
+                No predictions logged yet. Generate and save predictions to
+                build your accuracy history.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /main-content -->
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Import Modal -->
+    <div class="modal-overlay" id="importModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Import Prediction Logs</h3>
+          <button class="modal-close" id="closeImportModal">&times;</button>
+        </div>
+        <textarea
+          id="importData"
+          rows="8"
+          style="
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem;
+            font-family: monospace;
+            font-size: 0.8rem;
+          "
+          placeholder="Paste exported JSON here..."
+        ></textarea>
+        <div style="margin-top: 1rem; text-align: right">
+          <button class="btn btn-primary btn-sm" id="btnDoImport">
+            Import
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result Check Modal -->
+    <div class="modal-overlay" id="resultModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Enter Actual Results</h3>
+          <button class="modal-close" id="closeResultModal">&times;</button>
+        </div>
+        <div id="resultModalBody"></div>
+      </div>
+    </div>
+
+    <!-- Hidden file input for imports -->
+    <input type="file" id="fileImport" accept=".json" style="display: none" />
+
+    <!-- ===== Scripts (order matters) ===== -->
+    <script src="js/data-loader.js"></script>
+    <script src="js/analysis-4d.js"></script>
+    <script src="js/analysis-toto.js"></script>
+    <script src="js/engine/markov.js"></script>
+    <script src="js/engine/cycles.js"></script>
+    <script src="js/engine/migration.js"></script>
+    <script src="js/engine/bayesian.js"></script>
+    <script src="js/engine/genetic.js"></script>
+    <script src="js/engine/ensemble.js"></script>
+    <script src="js/engine/anomaly.js"></script>
+    <script src="js/engine/backtest.js"></script>
+    <script src="js/predictor-4d.js"></script>
+    <script src="js/predictor-toto.js"></script>
+    <script src="js/logger.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
