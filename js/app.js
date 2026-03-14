@@ -80,6 +80,18 @@ const App = {
         document.getElementById("resultModal").classList.remove("visible");
       });
 
+    // Bet modal
+    document.getElementById("closeBetModal").addEventListener("click", () => {
+      document.getElementById("betModal").classList.remove("visible");
+      this._pendingSave = null;
+    });
+    document.getElementById("btnBetYes").addEventListener("click", () => {
+      this.confirmSave(true);
+    });
+    document.getElementById("btnBetNo").addEventListener("click", () => {
+      this.confirmSave(false);
+    });
+
     // Tab change: render charts lazily
     document.querySelectorAll(".tab-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -159,26 +171,33 @@ const App = {
 
   save4D() {
     if (!this.last4DResult) return;
-    PredictionLogger.log({
-      game: "4d",
-      predictions: this.last4DResult.predictions,
-      weights: this.last4DResult.weights,
-      stats: this.last4DResult.stats,
-    });
-    UI.toast("4D predictions saved to log", "success");
-    document.getElementById("btnSave4D").style.display = "none";
+    this._pendingSave = { game: "4d", result: this.last4DResult, btnId: "btnSave4D" };
+    document.getElementById("betModal").classList.add("visible");
   },
 
   saveToto() {
     if (!this.lastTotoResult) return;
-    PredictionLogger.log({
-      game: "toto",
-      predictions: this.lastTotoResult.predictions,
-      weights: this.lastTotoResult.weights,
-      stats: this.lastTotoResult.stats,
+    this._pendingSave = { game: "toto", result: this.lastTotoResult, btnId: "btnSaveToto" };
+    document.getElementById("betModal").classList.add("visible");
+  },
+
+  confirmSave(betPlaced) {
+    const pending = this._pendingSave;
+    if (!pending) return;
+    const record = PredictionLogger.log({
+      game: pending.game,
+      predictions: pending.result.predictions,
+      weights: pending.result.weights,
+      stats: pending.result.stats,
+      betPlaced,
     });
-    UI.toast("TOTO predictions saved to log", "success");
-    document.getElementById("btnSaveToto").style.display = "none";
+    document.getElementById("betModal").classList.remove("visible");
+    document.getElementById(pending.btnId).style.display = "none";
+    UI.toast(
+      betPlaced ? "Saved with bet placed 🎫" : "Saved to log 📝",
+      "success",
+    );
+    this._pendingSave = null;
   },
 
   toggleBet(logId) {
@@ -199,89 +218,118 @@ const App = {
 
     const modal = document.getElementById("resultModal");
     const body = document.getElementById("resultModalBody");
+    document.getElementById("resultModalTitle").textContent = "Check Against Draw";
 
     if (log.game === "4d") {
+      const draws = DataLoader.get4DDraws();
+      if (!draws || draws.length === 0) {
+        UI.toast("No 4D draw data available", "error");
+        return;
+      }
+      let options = draws.map((d) =>
+        `<option value="${d.drawNo}">Draw #${d.drawNo} — ${d.date} (1st: ${d.first})</option>`
+      ).join("");
+
       body.innerHTML = `
-        <p style="margin-bottom:1rem;color:var(--text-secondary)">Enter the actual 4D results for draw comparison:</p>
-        <div style="display:grid;gap:0.5rem">
-          <label>1st Prize: <input type="text" id="res1st" maxlength="4" pattern="[0-9]{4}" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:0.4rem;border-radius:4px;width:80px;font-family:monospace"></label>
-          <label>2nd Prize: <input type="text" id="res2nd" maxlength="4" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:0.4rem;border-radius:4px;width:80px;font-family:monospace"></label>
-          <label>3rd Prize: <input type="text" id="res3rd" maxlength="4" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:0.4rem;border-radius:4px;width:80px;font-family:monospace"></label>
-          <label>Starters (comma-separated): <input type="text" id="resStarters" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:0.4rem;border-radius:4px;width:100%;font-family:monospace"></label>
-          <label>Consolation (comma-separated): <input type="text" id="resConsolation" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:0.4rem;border-radius:4px;width:100%;font-family:monospace"></label>
-        </div>
-        <div style="margin-top:1rem;text-align:right">
-          <button class="btn btn-primary btn-sm" onclick="App.submitResult4D('${logId}')">Submit</button>
+        <div style="padding:0.5rem 0">
+          <p style="margin-bottom:1rem;color:var(--text-secondary)">Select the draw to check your predictions against:</p>
+          <select id="resDrawSelect" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:0.5rem;border-radius:4px;width:100%;font-size:0.9rem;margin-bottom:1rem">
+            ${options}
+          </select>
+          <div id="resDrawPreview" style="background:var(--bg-secondary);border-radius:var(--radius-sm);padding:0.75rem;font-size:0.85rem;color:var(--text-secondary)"></div>
+          <div style="margin-top:1rem;text-align:right">
+            <button class="btn btn-primary btn-sm" onclick="App.submitAutoResult4D('${logId}')">✅ Check Results</button>
+          </div>
         </div>
       `;
+      // Preview first draw
+      const sel = document.getElementById("resDrawSelect");
+      this._preview4DDraw(draws, sel.value);
+      sel.addEventListener("change", () => this._preview4DDraw(draws, sel.value));
     } else {
+      const draws = DataLoader.getTotoDraws();
+      if (!draws || draws.length === 0) {
+        UI.toast("No TOTO draw data available", "error");
+        return;
+      }
+      let options = draws.map((d) =>
+        `<option value="${d.drawNo}">Draw #${d.drawNo} — ${d.date} (${d.winning.join(", ")})</option>`
+      ).join("");
+
       body.innerHTML = `
-        <p style="margin-bottom:1rem;color:var(--text-secondary)">Enter the actual TOTO results:</p>
-        <div style="display:grid;gap:0.5rem">
-          <label>Winning numbers (6, comma-separated): <input type="text" id="resWinning" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:0.4rem;border-radius:4px;width:100%;font-family:monospace" placeholder="3, 12, 18, 25, 33, 47"></label>
-          <label>Additional number: <input type="number" id="resAdditional" min="1" max="49" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:0.4rem;border-radius:4px;width:80px"></label>
-        </div>
-        <div style="margin-top:1rem;text-align:right">
-          <button class="btn btn-primary btn-sm" onclick="App.submitResultToto('${logId}')">Submit</button>
+        <div style="padding:0.5rem 0">
+          <p style="margin-bottom:1rem;color:var(--text-secondary)">Select the draw to check your predictions against:</p>
+          <select id="resDrawSelect" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:0.5rem;border-radius:4px;width:100%;font-size:0.9rem;margin-bottom:1rem">
+            ${options}
+          </select>
+          <div id="resDrawPreview" style="background:var(--bg-secondary);border-radius:var(--radius-sm);padding:0.75rem;font-size:0.85rem;color:var(--text-secondary)"></div>
+          <div style="margin-top:1rem;text-align:right">
+            <button class="btn btn-primary btn-sm" onclick="App.submitAutoResultToto('${logId}')">✅ Check Results</button>
+          </div>
         </div>
       `;
+      const sel = document.getElementById("resDrawSelect");
+      this._previewTotoDraw(draws, sel.value);
+      sel.addEventListener("change", () => this._previewTotoDraw(draws, sel.value));
     }
 
     modal.classList.add("visible");
   },
 
-  submitResult4D(logId) {
-    const first = document.getElementById("res1st").value.trim();
-    const second = document.getElementById("res2nd").value.trim();
-    const third = document.getElementById("res3rd").value.trim();
-    const starters = document
-      .getElementById("resStarters")
-      .value.split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const consolation = document
-      .getElementById("resConsolation")
-      .value.split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
+  _preview4DDraw(draws, drawNo) {
+    const d = draws.find((x) => String(x.drawNo) === String(drawNo));
+    const el = document.getElementById("resDrawPreview");
+    if (!d) { el.innerHTML = ""; return; }
+    el.innerHTML = `
+      <div><strong>1st:</strong> <span style="color:var(--accent-gold);font-family:monospace">${d.first}</span>
+        <strong style="margin-left:0.5rem">2nd:</strong> <span style="color:var(--accent-red);font-family:monospace">${d.second}</span>
+        <strong style="margin-left:0.5rem">3rd:</strong> <span style="color:var(--accent-blue);font-family:monospace">${d.third}</span></div>
+      <div style="margin-top:0.3rem"><strong>Starters:</strong> ${d.starters.join(", ")}</div>
+      <div style="margin-top:0.3rem"><strong>Consolation:</strong> ${d.consolation.join(", ")}</div>
+    `;
+  },
 
-    if (!first || !second || !third) {
-      UI.toast("Please enter at least the top 3 prizes", "error");
-      return;
-    }
+  _previewTotoDraw(draws, drawNo) {
+    const d = draws.find((x) => String(x.drawNo) === String(drawNo));
+    const el = document.getElementById("resDrawPreview");
+    if (!d) { el.innerHTML = ""; return; }
+    el.innerHTML = `
+      <div><strong>Winning:</strong> <span style="color:var(--accent-gold)">${d.winning.join(", ")}</span></div>
+      <div style="margin-top:0.3rem"><strong>Additional:</strong> <span style="color:var(--accent-green)">${d.additional}</span></div>
+    `;
+  },
+
+  submitAutoResult4D(logId) {
+    const drawNo = document.getElementById("resDrawSelect").value;
+    const draws = DataLoader.get4DDraws();
+    const d = draws.find((x) => String(x.drawNo) === String(drawNo));
+    if (!d) { UI.toast("Draw not found", "error"); return; }
 
     PredictionLogger.updateResult(logId, {
-      first,
-      second,
-      third,
-      starters,
-      consolation,
+      first: d.first,
+      second: d.second,
+      third: d.third,
+      starters: d.starters,
+      consolation: d.consolation,
     });
     document.getElementById("resultModal").classList.remove("visible");
     UI.renderLogs();
-    UI.toast("Results recorded and accuracy calculated", "success");
+    UI.toast("Results checked against Draw #" + drawNo, "success");
   },
 
-  submitResultToto(logId) {
-    const winningStr = document.getElementById("resWinning").value;
-    const additional = parseInt(document.getElementById("resAdditional").value);
-    const winning = winningStr
-      .split(",")
-      .map((s) => parseInt(s.trim()))
-      .filter((n) => !isNaN(n));
+  submitAutoResultToto(logId) {
+    const drawNo = document.getElementById("resDrawSelect").value;
+    const draws = DataLoader.getTotoDraws();
+    const d = draws.find((x) => String(x.drawNo) === String(drawNo));
+    if (!d) { UI.toast("Draw not found", "error"); return; }
 
-    if (winning.length !== 6 || isNaN(additional)) {
-      UI.toast(
-        "Please enter 6 winning numbers and 1 additional number",
-        "error",
-      );
-      return;
-    }
-
-    PredictionLogger.updateResult(logId, { winning, additional });
+    PredictionLogger.updateResult(logId, {
+      winning: d.winning,
+      additional: d.additional,
+    });
     document.getElementById("resultModal").classList.remove("visible");
     UI.renderLogs();
-    UI.toast("Results recorded and accuracy calculated", "success");
+    UI.toast("Results checked against Draw #" + drawNo, "success");
   },
 
   viewLogDetail(logId) {

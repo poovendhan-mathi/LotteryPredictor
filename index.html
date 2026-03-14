@@ -540,10 +540,27 @@
     <div class="modal-overlay" id="resultModal">
       <div class="modal">
         <div class="modal-header">
-          <h3>Enter Actual Results</h3>
+          <h3 id="resultModalTitle">Enter Actual Results</h3>
           <button class="modal-close" id="closeResultModal">&times;</button>
         </div>
         <div id="resultModalBody"></div>
+      </div>
+    </div>
+
+    <!-- Bet Confirmation Modal -->
+    <div class="modal-overlay" id="betModal">
+      <div class="modal" style="max-width:420px">
+        <div class="modal-header">
+          <h3>Save Prediction</h3>
+          <button class="modal-close" id="closeBetModal">&times;</button>
+        </div>
+        <div style="padding:1.5rem;text-align:center">
+          <p style="font-size:1.1rem;margin-bottom:1.25rem;color:var(--text-secondary)">Did you place a bet on these numbers?</p>
+          <div style="display:flex;gap:1rem;justify-content:center">
+            <button class="btn btn-primary" id="btnBetYes" style="min-width:120px">🎫 Yes, I bet!</button>
+            <button class="btn btn-secondary" id="btnBetNo" style="min-width:120px">📝 No, just saved</button>
+          </div>
+        </div>
       </div>
     </div>
 

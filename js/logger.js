@@ -26,7 +26,7 @@ const PredictionLogger = {
       accuracy: null,
       notes: entry.notes || "",
       // Bet tracking
-      betPlaced: false,
+      betPlaced: entry.betPlaced || false,
     };
     logs.unshift(record);
     this.save(logs);
