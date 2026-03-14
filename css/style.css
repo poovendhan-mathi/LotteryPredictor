@@ -310,6 +310,11 @@ body {
 .btn-secondary:hover {
   background: var(--bg-card-hover);
 }
+.btn-secondary.bet-marked {
+  background: var(--accent-green);
+  color: #fff;
+  border-color: transparent;
+}
 
 .btn-danger {
   background: var(--gradient-red);

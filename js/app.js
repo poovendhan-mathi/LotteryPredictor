@@ -2,6 +2,8 @@
 const App = {
   last4DResult: null,
   lastTotoResult: null,
+  _lastLogId4D: null,
+  _lastLogIdToto: null,
 
   async init() {
     UI.initTabs();
@@ -80,16 +82,15 @@ const App = {
         document.getElementById("resultModal").classList.remove("visible");
       });
 
-    // Bet modal
+    // Bet modal (legacy — modal no longer opened, predictions auto-logged)
     document.getElementById("closeBetModal").addEventListener("click", () => {
       document.getElementById("betModal").classList.remove("visible");
-      this._pendingSave = null;
     });
     document.getElementById("btnBetYes").addEventListener("click", () => {
-      this.confirmSave(true);
+      document.getElementById("betModal").classList.remove("visible");
     });
     document.getElementById("btnBetNo").addEventListener("click", () => {
-      this.confirmSave(false);
+      document.getElementById("betModal").classList.remove("visible");
     });
 
     // Tab change: render charts lazily
@@ -129,7 +130,22 @@ const App = {
     try {
       this.last4DResult = await Predictor4D.generate(count, { historyLimit });
       UI.render4DPredictions(this.last4DResult);
-      UI.toast(`Generated ${count} 4D predictions`, "success");
+
+      // Auto-log every prediction immediately
+      const record = PredictionLogger.log({
+        game: "4d",
+        predictions: this.last4DResult.predictions,
+        weights: this.last4DResult.weights,
+        stats: this.last4DResult.stats,
+        betPlaced: false,
+      });
+      this._lastLogId4D = record.id;
+      const saveBtn = document.getElementById("btnSave4D");
+      saveBtn.style.display = "inline-flex";
+      saveBtn.innerHTML = "🎫 Mark Bet Placed";
+      saveBtn.classList.remove("bet-marked");
+
+      UI.toast(`Generated ${count} 4D predictions (auto-logged)`, "success");
     } catch (err) {
       console.error("4D generation error:", err);
       document.getElementById("results4D").innerHTML =
@@ -157,7 +173,22 @@ const App = {
         historyLimit,
       });
       UI.renderTotoPredictions(this.lastTotoResult);
-      UI.toast(`Generated ${setsCount} TOTO sets`, "success");
+
+      // Auto-log every prediction immediately
+      const record = PredictionLogger.log({
+        game: "toto",
+        predictions: this.lastTotoResult.predictions,
+        weights: this.lastTotoResult.weights,
+        stats: this.lastTotoResult.stats,
+        betPlaced: false,
+      });
+      this._lastLogIdToto = record.id;
+      const saveBtn = document.getElementById("btnSaveToto");
+      saveBtn.style.display = "inline-flex";
+      saveBtn.innerHTML = "🎫 Mark Bet Placed";
+      saveBtn.classList.remove("bet-marked");
+
+      UI.toast(`Generated ${setsCount} TOTO sets (auto-logged)`, "success");
     } catch (err) {
       console.error("TOTO generation error:", err);
       document.getElementById("resultsToto").innerHTML =
@@ -170,42 +201,33 @@ const App = {
   },
 
   save4D() {
-    if (!this.last4DResult) return;
-    this._pendingSave = {
-      game: "4d",
-      result: this.last4DResult,
-      btnId: "btnSave4D",
-    };
-    document.getElementById("betModal").classList.add("visible");
+    if (!this._lastLogId4D) return;
+    const entry = PredictionLogger.toggleBet(this._lastLogId4D);
+    const btn = document.getElementById("btnSave4D");
+    if (entry && entry.betPlaced) {
+      btn.innerHTML = "✅ Bet Marked";
+      btn.classList.add("bet-marked");
+      UI.toast("Marked as bet placed 🎫", "success");
+    } else if (entry) {
+      btn.innerHTML = "🎫 Mark Bet Placed";
+      btn.classList.remove("bet-marked");
+      UI.toast("Bet unmarked", "info");
+    }
   },
 
   saveToto() {
-    if (!this.lastTotoResult) return;
-    this._pendingSave = {
-      game: "toto",
-      result: this.lastTotoResult,
-      btnId: "btnSaveToto",
-    };
-    document.getElementById("betModal").classList.add("visible");
-  },
-
-  confirmSave(betPlaced) {
-    const pending = this._pendingSave;
-    if (!pending) return;
-    const record = PredictionLogger.log({
-      game: pending.game,
-      predictions: pending.result.predictions,
-      weights: pending.result.weights,
-      stats: pending.result.stats,
-      betPlaced,
-    });
-    document.getElementById("betModal").classList.remove("visible");
-    document.getElementById(pending.btnId).style.display = "none";
-    UI.toast(
-      betPlaced ? "Saved with bet placed 🎫" : "Saved to log 📝",
-      "success",
-    );
-    this._pendingSave = null;
+    if (!this._lastLogIdToto) return;
+    const entry = PredictionLogger.toggleBet(this._lastLogIdToto);
+    const btn = document.getElementById("btnSaveToto");
+    if (entry && entry.betPlaced) {
+      btn.innerHTML = "✅ Bet Marked";
+      btn.classList.add("bet-marked");
+      UI.toast("Marked as bet placed 🎫", "success");
+    } else if (entry) {
+      btn.innerHTML = "🎫 Mark Bet Placed";
+      btn.classList.remove("bet-marked");
+      UI.toast("Bet unmarked", "info");
+    }
   },
 
   toggleBet(logId) {

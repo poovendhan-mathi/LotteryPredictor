@@ -148,9 +148,6 @@ const UI = {
       </div>`;
     el.innerHTML = html;
 
-    // Show save button
-    document.getElementById("btnSave4D").style.display = "inline-flex";
-
     // Show analysis summary
     this.render4DAnalysisSummary(result.analysis);
   },
@@ -226,8 +223,6 @@ const UI = {
         ⏱ Generated in ${result.stats.elapsedMs}ms · Analyzed ${result.stats.drawsAnalyzed} draws
       </div>`;
     el.innerHTML = html;
-
-    document.getElementById("btnSaveToto").style.display = "inline-flex";
 
     // Show rankings
     this.renderTotoRankings(result.numberRankings);
