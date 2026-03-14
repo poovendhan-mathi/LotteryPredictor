@@ -25,10 +25,22 @@ const PredictionLogger = {
       checkedAt: null,
       accuracy: null,
       notes: entry.notes || "",
+      // Bet tracking
+      betPlaced: false,
     };
     logs.unshift(record);
     this.save(logs);
     return record;
+  },
+
+  // Toggle bet placed status
+  toggleBet(id) {
+    const logs = this.getAll();
+    const entry = logs.find((l) => l.id === id);
+    if (!entry) return null;
+    entry.betPlaced = !entry.betPlaced;
+    this.save(logs);
+    return entry;
   },
 
   // Update a prediction with actual results
@@ -222,6 +234,30 @@ const PredictionLogger = {
     }
 
     return weights;
+  },
+
+  // Get bet tracking statistics
+  getBetStats() {
+    const logs = this.getAll();
+    const bets = logs.filter((l) => l.betPlaced);
+    const noBets = logs.filter((l) => !l.betPlaced);
+    const betsChecked = bets.filter((l) => l.accuracy);
+    const noBetsChecked = noBets.filter((l) => l.accuracy);
+
+    const betsWon4D = betsChecked.filter((l) => l.game === "4d" && l.accuracy && l.accuracy.hits > 0).length;
+    const betsWonToto = betsChecked.filter((l) => l.game === "toto" && l.accuracy && l.accuracy.anyPrize).length;
+    const noBetsWon4D = noBetsChecked.filter((l) => l.game === "4d" && l.accuracy && l.accuracy.hits > 0).length;
+    const noBetsWonToto = noBetsChecked.filter((l) => l.game === "toto" && l.accuracy && l.accuracy.anyPrize).length;
+
+    return {
+      totalBets: bets.length,
+      totalNoBets: noBets.length,
+      betsWon: betsWon4D + betsWonToto,
+      betsLost: betsChecked.length - betsWon4D - betsWonToto,
+      noBetsWon: noBetsWon4D + noBetsWonToto,
+      betsChecked: betsChecked.length,
+      noBetsChecked: noBetsChecked.length,
+    };
   },
 
   // Export logs as JSON

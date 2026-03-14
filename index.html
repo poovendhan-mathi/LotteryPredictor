@@ -229,6 +229,33 @@
 
       <!-- ========== ANALYSIS ========== -->
       <div class="tab-panel" id="panel-analysis">
+        <!-- Draw Count Banner -->
+        <div class="card analysis-banner" id="analysisBanner">
+          <div class="analysis-banner-inner">
+            <div class="analysis-banner-item">
+              <span class="analysis-banner-icon">🎰</span>
+              <span>4D Analysis based on <strong id="analysisDraw4DCount">0</strong> draws</span>
+              <span class="analysis-banner-range" id="analysisDraw4DRange"></span>
+            </div>
+            <div class="analysis-banner-item">
+              <span class="analysis-banner-icon">🍀</span>
+              <span>TOTO Analysis based on <strong id="analysisDrawTotoCount">0</strong> draws</span>
+              <span class="analysis-banner-range" id="analysisDrawTotoRange"></span>
+            </div>
+            <div class="analysis-banner-item">
+              <span class="analysis-banner-icon">🕐</span>
+              <span>Last updated: <span id="analysisLastUpdate">—</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats Summary -->
+        <div class="card">
+          <div class="card-title"><span class="icon">📊</span> Quick Stats Overview</div>
+          <div id="analysisQuickStats" class="stat-grid"></div>
+        </div>
+
+        <!-- Hot & Cold + Frequency -->
         <div class="grid-2">
           <div class="card">
             <div class="card-title">
@@ -247,6 +274,8 @@
             </div>
           </div>
         </div>
+
+        <!-- Sum Distribution -->
         <div class="grid-2">
           <div class="card">
             <div class="card-title">
@@ -263,14 +292,104 @@
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-title">
-            <span class="icon">⏳</span> TOTO Overdue Numbers
+
+        <!-- Overdue Numbers -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">⏳</span> 4D Overdue Numbers
+            </div>
+            <div class="chart-container">
+              <canvas id="chart4DOverdue"></canvas>
+            </div>
           </div>
-          <div class="chart-container">
-            <canvas id="chartTotoOverdue"></canvas>
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">⏳</span> TOTO Overdue Numbers
+            </div>
+            <div class="chart-container">
+              <canvas id="chartTotoOverdue"></canvas>
+            </div>
           </div>
         </div>
+
+        <!-- 4D Positional Digit Frequency + TOTO Delta Analysis -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">🔢</span> 4D Positional Digit Frequency
+            </div>
+            <div class="chart-container chart-container-tall">
+              <canvas id="chart4DPositional"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">📐</span> TOTO Delta Analysis
+            </div>
+            <div class="chart-container">
+              <canvas id="chartTotoDelta"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOTO Odd/Even + High/Low -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">⚖️</span> TOTO Odd/Even Distribution
+            </div>
+            <div class="chart-container">
+              <canvas id="chartTotoOddEven"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">📊</span> TOTO High/Low Distribution
+            </div>
+            <div class="chart-container">
+              <canvas id="chartTotoHighLow"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4D Digit Pair Correlation + TOTO Top Pairs -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">🔗</span> 4D Digit Pair Correlation (Top 20)
+            </div>
+            <div class="chart-container">
+              <canvas id="chart4DPairCorr"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">
+              <span class="icon">🤝</span> TOTO Top Number Pairs
+            </div>
+            <div class="chart-container">
+              <canvas id="chartTotoTopPairs"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4D Odd/Even + High/Low Ratio  -->
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">📈</span> 4D Digit Ratio Analysis
+          </div>
+          <div id="analysis4DRatios"></div>
+        </div>
+
+        <!-- TOTO Consecutive + Gap Summary -->
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🔍</span> TOTO Pattern Insights
+          </div>
+          <div id="analysisTotoPatterns"></div>
+        </div>
+
+        <!-- Anomaly Report -->
         <div class="card">
           <div class="card-title">
             <span class="icon">🧪</span> Anomaly Report
@@ -319,6 +438,23 @@
               <div class="stat-value" id="logBestToto">0</div>
               <div class="stat-label">TOTO Best Match</div>
             </div>
+            <div class="stat-box" style="border-color: rgba(63, 185, 80, 0.4)">
+              <div class="stat-value" style="color:var(--accent-green)" id="logBetsPlaced">0</div>
+              <div class="stat-label">🎫 Bets Placed</div>
+            </div>
+            <div class="stat-box" style="border-color: rgba(240, 180, 41, 0.4)">
+              <div class="stat-value" style="color:var(--accent-gold)" id="logBetsWon">0</div>
+              <div class="stat-label">🏆 Bets Won</div>
+            </div>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div class="log-filter-tabs" style="margin-bottom: 1rem">
+            <button class="log-filter-btn active" data-filter="all">📋 All</button>
+            <button class="log-filter-btn" data-filter="bet">🎫 Bet Placed</button>
+            <button class="log-filter-btn" data-filter="nobet">📝 Not Bet</button>
+            <button class="log-filter-btn" data-filter="won">🏆 Won</button>
+            <button class="log-filter-btn" data-filter="lost">❌ Lost</button>
           </div>
 
           <div id="logTableWrap">

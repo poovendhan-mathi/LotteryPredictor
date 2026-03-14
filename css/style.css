@@ -424,6 +424,94 @@ body {
   margin: 0.5rem 0;
 }
 
+.chart-container-tall {
+  height: 340px;
+}
+
+/* ===== Analysis Banner ===== */
+.analysis-banner {
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(240, 180, 41, 0.08) 100%) !important;
+  border: 1px solid rgba(240, 180, 41, 0.25) !important;
+}
+
+.analysis-banner-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.analysis-banner-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.analysis-banner-item strong {
+  color: var(--accent-gold);
+  font-size: 1.15rem;
+}
+
+.analysis-banner-icon {
+  font-size: 1.2rem;
+}
+
+.analysis-banner-range {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ===== Ratio Bars ===== */
+.ratio-bar-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.ratio-bar {
+  display: flex;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  height: 28px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.ratio-fill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  transition: width 0.5s ease;
+}
+
+.ratio-fill-gold { background: rgba(240, 180, 41, 0.85); }
+.ratio-fill-blue { background: rgba(88, 166, 255, 0.7); }
+.ratio-fill-green { background: rgba(63, 185, 80, 0.85); }
+.ratio-fill-orange { background: rgba(247, 129, 102, 0.7); }
+
+.ratio-detail {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+/* ===== Triplet Chips ===== */
+.triplet-chip {
+  display: inline-block;
+  background: rgba(188, 140, 255, 0.15);
+  border: 1px solid rgba(188, 140, 255, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  color: var(--accent-purple);
+  margin: 0.15rem;
+}
+
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -475,6 +563,120 @@ body {
 
 .log-table tr:hover td {
   background: var(--bg-card-hover);
+}
+
+.log-actions {
+  display: flex;
+  gap: 0.3rem;
+}
+
+/* ===== Log Filter Tabs ===== */
+.log-filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.log-filter-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.log-filter-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-primary);
+}
+
+.log-filter-btn.active {
+  background: rgba(240, 180, 41, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+/* ===== Bet/Result Badges ===== */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-bet {
+  background: rgba(63, 185, 80, 0.15);
+  color: var(--accent-green);
+  border: 1px solid rgba(63, 185, 80, 0.3);
+}
+
+.badge-nobet {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.badge-pending {
+  background: rgba(139, 148, 158, 0.12);
+  color: var(--text-muted);
+}
+
+.badge-won {
+  background: rgba(63, 185, 80, 0.15);
+  color: var(--accent-green);
+  border: 1px solid rgba(63, 185, 80, 0.3);
+}
+
+.badge-top3 {
+  background: rgba(240, 180, 41, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid rgba(240, 180, 41, 0.3);
+}
+
+.badge-lost {
+  background: rgba(218, 54, 51, 0.1);
+  color: var(--accent-red);
+}
+
+.badge-close {
+  background: rgba(247, 129, 102, 0.12);
+  color: var(--accent-orange);
+}
+
+/* ===== Log Row Highlights ===== */
+.log-row-bet-won td {
+  background: rgba(63, 185, 80, 0.06);
+  border-left: 3px solid var(--accent-green);
+}
+
+.log-row-bet-lost td {
+  background: rgba(218, 54, 51, 0.04);
+  border-left: 3px solid var(--accent-red);
+}
+
+.log-row-bet td {
+  background: rgba(63, 185, 80, 0.03);
+  border-left: 3px solid rgba(63, 185, 80, 0.3);
+}
+
+.log-row-won td {
+  border-left: 3px solid rgba(63, 185, 80, 0.2);
+}
+
+.log-row-lost td {
+  border-left: 3px solid rgba(218, 54, 51, 0.15);
+}
+
+/* Bet toggle active button */
+.btn-bet-active {
+  background: rgba(63, 185, 80, 0.2) !important;
+  border: 1px solid var(--accent-green) !important;
+  color: var(--accent-green) !important;
 }
 
 /* ===== Tags ===== */

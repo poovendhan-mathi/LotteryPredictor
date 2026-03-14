@@ -257,12 +257,108 @@ const UI = {
     const draws4D = data4D || DataLoader.get4DDraws(50);
     const drawsToto = dataToto || DataLoader.getTotoDraws(40);
 
+    // Draw count banner
+    this.renderAnalysisBanner(draws4D, drawsToto);
+
+    // Quick stats summary
+    this.renderAnalysisQuickStats(draws4D, drawsToto);
+
+    // Original charts
     this.renderChart4DHotCold(draws4D);
     this.renderChartTotoFreq(drawsToto);
     this.renderChart4DSum(draws4D);
     this.renderChartTotoSum(drawsToto);
+    this.renderChart4DOverdue(draws4D);
     this.renderChartTotoOverdue(drawsToto);
+
+    // New charts
+    this.renderChart4DPositional(draws4D);
+    this.renderChartTotoDelta(drawsToto);
+    this.renderChartTotoOddEven(drawsToto);
+    this.renderChartTotoHighLow(drawsToto);
+    this.renderChart4DPairCorr(draws4D);
+    this.renderChartTotoTopPairs(drawsToto);
+    this.renderAnalysis4DRatios(draws4D);
+    this.renderAnalysisTotoPatterns(drawsToto);
+
+    // Anomaly
     this.renderAnomalyReport(draws4D, drawsToto);
+  },
+
+  renderAnalysisBanner(draws4D, drawsToto) {
+    document.getElementById("analysisDraw4DCount").textContent = draws4D.length;
+    document.getElementById("analysisDrawTotoCount").textContent = drawsToto.length;
+
+    // Draw range
+    if (draws4D.length > 0) {
+      const oldest4D = draws4D[draws4D.length - 1];
+      const newest4D = draws4D[0];
+      document.getElementById("analysisDraw4DRange").textContent =
+        `(Draw #${oldest4D.drawNo} — #${newest4D.drawNo})`;
+    }
+    if (drawsToto.length > 0) {
+      const oldestToto = drawsToto[drawsToto.length - 1];
+      const newestToto = drawsToto[0];
+      document.getElementById("analysisDrawTotoRange").textContent =
+        `(Draw #${oldestToto.drawNo} — #${newestToto.drawNo})`;
+    }
+
+    document.getElementById("analysisLastUpdate").textContent =
+      new Date().toLocaleString();
+  },
+
+  renderAnalysisQuickStats(draws4D, drawsToto) {
+    const el = document.getElementById("analysisQuickStats");
+
+    // 4D stats
+    const hotCold4D = Analysis4D.hotColdNumbers(draws4D);
+    const sums4D = Analysis4D.sumDistribution(draws4D);
+    const ratio4D = Analysis4D.ratioAnalysis(draws4D);
+
+    // TOTO stats
+    const hotColdToto = AnalysisToto.hotColdNumbers(drawsToto);
+    const sumsToto = AnalysisToto.sumAnalysis(drawsToto);
+    const consec = AnalysisToto.consecutiveAnalysis(drawsToto);
+    const oddEven = AnalysisToto.oddEvenDistribution(drawsToto);
+
+    // Find most common odd/even pattern
+    const oeEntries = Object.entries(oddEven).sort((a, b) => b[1] - a[1]);
+    const topOE = oeEntries.length > 0 ? oeEntries[0][0] : "—";
+
+    el.innerHTML = `
+      <div class="stat-box">
+        <div class="stat-value" style="color:var(--accent-gold)">${hotCold4D.hot[0] ? hotCold4D.hot[0][0] : "—"}</div>
+        <div class="stat-label">🔥 Hottest 4D Number</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" style="color:var(--accent-green)">${hotColdToto.hot[0] ? hotColdToto.hot[0].num : "—"}</div>
+        <div class="stat-label">🔥 Hottest TOTO Number</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${sums4D.mean ? sums4D.mean.toFixed(1) : "—"}</div>
+        <div class="stat-label">4D Avg Digit Sum</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${sumsToto.mean ? sumsToto.mean.toFixed(0) : "—"}</div>
+        <div class="stat-label">TOTO Avg Sum</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${sumsToto.idealRange ? sumsToto.idealRange[0] + "–" + sumsToto.idealRange[1] : "—"}</div>
+        <div class="stat-label">TOTO Ideal Sum Range</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${(ratio4D.oddEvenRatio * 100).toFixed(0)}%</div>
+        <div class="stat-label">4D Odd Digit Ratio</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${topOE}</div>
+        <div class="stat-label">TOTO Most Common Split</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">${(consec.rate * 100).toFixed(0)}%</div>
+        <div class="stat-label">TOTO Draws w/ Consec.</div>
+      </div>
+    `;
   },
 
   renderChart4DHotCold(draws) {
@@ -468,6 +564,354 @@ const UI = {
     );
   },
 
+  // ===== 4D Overdue Numbers =====
+  renderChart4DOverdue(draws) {
+    const overdue = Analysis4D.overdueAnalysis(draws);
+    const top20 = overdue.sorted.slice(0, 20);
+    const labels = top20.map((e) => e[0]);
+    const data = top20.map((e) => e[1]);
+
+    this.destroyChart("chart4DOverdue");
+    this.chartInstances["chart4DOverdue"] = new Chart(
+      document.getElementById("chart4DOverdue"),
+      {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "Draws Since Last Seen",
+              data,
+              backgroundColor: "rgba(240, 180, 41, 0.6)",
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: "y",
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { beginAtZero: true, ticks: { color: "#8b949e" } },
+            y: { ticks: { color: "#8b949e", font: { size: 9 } } },
+          },
+        },
+      },
+    );
+  },
+
+  // ===== 4D Positional Digit Frequency =====
+  renderChart4DPositional(draws) {
+    const { posFreq } = Analysis4D.positionalFrequency(draws);
+    const digits = Array.from({ length: 10 }, (_, i) => String(i));
+    const posLabels = ["Position 1", "Position 2", "Position 3", "Position 4"];
+    const colors = [
+      "rgba(240, 180, 41, 0.7)",
+      "rgba(218, 54, 51, 0.7)",
+      "rgba(88, 166, 255, 0.7)",
+      "rgba(63, 185, 80, 0.7)",
+    ];
+
+    const datasets = posFreq.map((pos, i) => ({
+      label: posLabels[i],
+      data: pos,
+      backgroundColor: colors[i],
+      borderRadius: 2,
+    }));
+
+    this.destroyChart("chart4DPositional");
+    this.chartInstances["chart4DPositional"] = new Chart(
+      document.getElementById("chart4DPositional"),
+      {
+        type: "bar",
+        data: { labels: digits, datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: "#8b949e", boxWidth: 12 },
+            },
+          },
+          scales: {
+            y: { beginAtZero: true, ticks: { color: "#8b949e" } },
+            x: { ticks: { color: "#8b949e" } },
+          },
+        },
+      },
+    );
+  },
+
+  // ===== TOTO Delta Analysis =====
+  renderChartTotoDelta(draws) {
+    const delta = AnalysisToto.deltaAnalysis(draws);
+    const top = delta.mostCommon.slice(0, 15);
+    const labels = top.map((e) => String(e[0]));
+    const data = top.map((e) => e[1]);
+
+    this.destroyChart("chartTotoDelta");
+    this.chartInstances["chartTotoDelta"] = new Chart(
+      document.getElementById("chartTotoDelta"),
+      {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "Delta Frequency",
+              data,
+              backgroundColor: "rgba(188, 140, 255, 0.6)",
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { color: "#8b949e" } },
+            x: {
+              title: { display: true, text: "Gap Between Consecutive Numbers", color: "#8b949e" },
+              ticks: { color: "#8b949e" },
+            },
+          },
+        },
+      },
+    );
+  },
+
+  // ===== TOTO Odd/Even Distribution =====
+  renderChartTotoOddEven(draws) {
+    const dist = AnalysisToto.oddEvenDistribution(draws);
+    const entries = Object.entries(dist).sort((a, b) => b[1] - a[1]);
+    const labels = entries.map((e) => e[0]);
+    const data = entries.map((e) => e[1]);
+    const bgColors = [
+      "rgba(240, 180, 41, 0.8)",
+      "rgba(63, 185, 80, 0.8)",
+      "rgba(88, 166, 255, 0.8)",
+      "rgba(218, 54, 51, 0.8)",
+      "rgba(188, 140, 255, 0.8)",
+      "rgba(247, 129, 102, 0.8)",
+      "rgba(139, 148, 158, 0.8)",
+    ];
+
+    this.destroyChart("chartTotoOddEven");
+    this.chartInstances["chartTotoOddEven"] = new Chart(
+      document.getElementById("chartTotoOddEven"),
+      {
+        type: "doughnut",
+        data: {
+          labels,
+          datasets: [{ data, backgroundColor: bgColors.slice(0, data.length) }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "right",
+              labels: { color: "#e6edf3", padding: 12, font: { size: 11 } },
+            },
+          },
+        },
+      },
+    );
+  },
+
+  // ===== TOTO High/Low Distribution =====
+  renderChartTotoHighLow(draws) {
+    const dist = AnalysisToto.highLowDistribution(draws);
+    const entries = Object.entries(dist).sort((a, b) => b[1] - a[1]);
+    const labels = entries.map((e) => e[0]);
+    const data = entries.map((e) => e[1]);
+    const bgColors = [
+      "rgba(88, 166, 255, 0.8)",
+      "rgba(240, 180, 41, 0.8)",
+      "rgba(63, 185, 80, 0.8)",
+      "rgba(218, 54, 51, 0.8)",
+      "rgba(188, 140, 255, 0.8)",
+      "rgba(247, 129, 102, 0.8)",
+      "rgba(139, 148, 158, 0.8)",
+    ];
+
+    this.destroyChart("chartTotoHighLow");
+    this.chartInstances["chartTotoHighLow"] = new Chart(
+      document.getElementById("chartTotoHighLow"),
+      {
+        type: "doughnut",
+        data: {
+          labels,
+          datasets: [{ data, backgroundColor: bgColors.slice(0, data.length) }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "right",
+              labels: { color: "#e6edf3", padding: 12, font: { size: 11 } },
+            },
+          },
+        },
+      },
+    );
+  },
+
+  // ===== 4D Digit Pair Correlation =====
+  renderChart4DPairCorr(draws) {
+    const pairCount = Analysis4D.digitPairCorrelation(draws);
+    const sorted = Object.entries(pairCount).sort((a, b) => b[1] - a[1]);
+    const top20 = sorted.slice(0, 20);
+    const labels = top20.map((e) => e[0]);
+    const data = top20.map((e) => e[1]);
+
+    this.destroyChart("chart4DPairCorr");
+    this.chartInstances["chart4DPairCorr"] = new Chart(
+      document.getElementById("chart4DPairCorr"),
+      {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "Pair Frequency",
+              data,
+              backgroundColor: "rgba(247, 129, 102, 0.6)",
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { color: "#8b949e" } },
+            x: { ticks: { color: "#8b949e", font: { size: 10 } } },
+          },
+        },
+      },
+    );
+  },
+
+  // ===== TOTO Top Number Pairs =====
+  renderChartTotoTopPairs(draws) {
+    const pairData = AnalysisToto.pairAnalysis(draws);
+    const top20 = pairData.topPairs.slice(0, 20);
+    const labels = top20.map((e) => e[0]);
+    const data = top20.map((e) => e[1]);
+
+    this.destroyChart("chartTotoTopPairs");
+    this.chartInstances["chartTotoTopPairs"] = new Chart(
+      document.getElementById("chartTotoTopPairs"),
+      {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "Co-occurrence Count",
+              data,
+              backgroundColor: "rgba(63, 185, 80, 0.6)",
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { color: "#8b949e" } },
+            x: { ticks: { color: "#8b949e", maxRotation: 60, font: { size: 9 } } },
+          },
+        },
+      },
+    );
+  },
+
+  // ===== 4D Ratio Analysis Panel =====
+  renderAnalysis4DRatios(draws) {
+    const el = document.getElementById("analysis4DRatios");
+    const ratio = Analysis4D.ratioAnalysis(draws);
+    const oddPct = (ratio.oddEvenRatio * 100).toFixed(1);
+    const evenPct = (100 - oddPct).toFixed(1);
+    const highPct = (ratio.highLowRatio * 100).toFixed(1);
+    const lowPct = (100 - highPct).toFixed(1);
+
+    el.innerHTML = `
+      <div class="grid-2" style="margin-top:0.5rem">
+        <div>
+          <div class="ratio-bar-label">Odd vs Even Digits</div>
+          <div class="ratio-bar">
+            <div class="ratio-fill ratio-fill-gold" style="width:${oddPct}%">${oddPct}% Odd</div>
+            <div class="ratio-fill ratio-fill-blue" style="width:${evenPct}%">${evenPct}% Even</div>
+          </div>
+          <div class="ratio-detail">Odd: ${ratio.oddEvenCounts.odd} · Even: ${ratio.oddEvenCounts.even} · Ideal: 50/50</div>
+        </div>
+        <div>
+          <div class="ratio-bar-label">High (5-9) vs Low (0-4) Digits</div>
+          <div class="ratio-bar">
+            <div class="ratio-fill ratio-fill-green" style="width:${highPct}%">${highPct}% High</div>
+            <div class="ratio-fill ratio-fill-orange" style="width:${lowPct}%">${lowPct}% Low</div>
+          </div>
+          <div class="ratio-detail">High: ${ratio.highLowCounts.high} · Low: ${ratio.highLowCounts.low} · Ideal: 50/50</div>
+        </div>
+      </div>
+    `;
+  },
+
+  // ===== TOTO Pattern Insights Panel =====
+  renderAnalysisTotoPatterns(draws) {
+    const el = document.getElementById("analysisTotoPatterns");
+    const consec = AnalysisToto.consecutiveAnalysis(draws);
+    const gap = AnalysisToto.gapAnalysis(draws);
+    const delta = AnalysisToto.deltaAnalysis(draws);
+    const triplets = AnalysisToto.tripletAnalysis(draws);
+
+    // Find numbers with shortest avg gap (most frequent)
+    const gapEntries = [];
+    for (let n = 1; n <= 49; n++) {
+      if (gap.avgGaps[n] && gap.avgGaps[n] < draws.length) {
+        gapEntries.push({ num: n, gap: gap.avgGaps[n] });
+      }
+    }
+    gapEntries.sort((a, b) => a.gap - b.gap);
+    const mostFreqByGap = gapEntries.slice(0, 8).map((e) => e.num).join(", ");
+    const longestGap = gapEntries.slice(-5).reverse().map((e) => e.num).join(", ");
+
+    el.innerHTML = `
+      <div class="stat-grid" style="margin-top:0.5rem">
+        <div class="stat-box">
+          <div class="stat-value">${consec.withConsecutive}/${consec.total}</div>
+          <div class="stat-label">Draws with Consecutive Numbers</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${(consec.rate * 100).toFixed(0)}%</div>
+          <div class="stat-label">Consecutive Rate</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${delta.mean ? delta.mean.toFixed(1) : "—"}</div>
+          <div class="stat-label">Average Delta</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${delta.mostCommon[0] ? delta.mostCommon[0][0] : "—"}</div>
+          <div class="stat-label">Most Common Delta</div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;font-size:0.85rem;color:var(--text-secondary)">
+        <p style="margin-bottom:0.5rem"><strong style="color:var(--accent-green)">📈 Shortest Avg Gap (most regular):</strong> ${mostFreqByGap || "—"}</p>
+        <p style="margin-bottom:0.5rem"><strong style="color:var(--accent-orange)">📉 Longest Avg Gap (least regular):</strong> ${longestGap || "—"}</p>
+        <p><strong style="color:var(--accent-purple)">🔮 Top Triplets:</strong>
+          ${triplets.topTriplets.slice(0, 5).map((t) => `<span class="triplet-chip">${t[0]} (×${t[1]})</span>`).join(" ")}
+        </p>
+      </div>
+    `;
+  },
+
   renderAnomalyReport(draws4D, drawsToto) {
     const el = document.getElementById("anomalyReport");
     const anom4D = AnomalyEngine.scan4D(draws4D);
@@ -516,13 +960,26 @@ const UI = {
   },
 
   // ===== Logs Rendering =====
+  currentLogFilter: "all",
+
+  initLogFilters() {
+    document.querySelectorAll(".log-filter-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".log-filter-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        this.currentLogFilter = btn.dataset.filter;
+        this.renderLogs();
+      });
+    });
+  },
+
   renderLogs() {
-    const logs = PredictionLogger.getAll();
+    const allLogs = PredictionLogger.getAll();
     const el = document.getElementById("logTableWrap");
 
     // Update stats
-    const logs4D = logs.filter((l) => l.game === "4d");
-    const logsToto = logs.filter((l) => l.game === "toto");
+    const logs4D = allLogs.filter((l) => l.game === "4d");
+    const logsToto = allLogs.filter((l) => l.game === "toto");
     document.getElementById("logTotal4D").textContent = logs4D.length;
     document.getElementById("logTotalToto").textContent = logsToto.length;
 
@@ -536,14 +993,36 @@ const UI = {
       ? statsToto.bestMatch
       : 0;
 
-    if (logs.length === 0) {
+    // Bet stats
+    const betStats = PredictionLogger.getBetStats();
+    document.getElementById("logBetsPlaced").textContent = betStats.totalBets;
+    document.getElementById("logBetsWon").textContent = betStats.betsWon;
+
+    if (allLogs.length === 0) {
       el.innerHTML =
         '<div class="empty-state"><div class="icon">📋</div><p>No predictions logged yet.</p></div>';
       return;
     }
 
+    // Apply filter
+    const filter = this.currentLogFilter;
+    const logs = allLogs.filter((log) => {
+      if (filter === "all") return true;
+      if (filter === "bet") return log.betPlaced;
+      if (filter === "nobet") return !log.betPlaced;
+      if (filter === "won") return this.isLogWon(log);
+      if (filter === "lost") return log.accuracy && !this.isLogWon(log);
+      return true;
+    });
+
+    if (logs.length === 0) {
+      el.innerHTML =
+        `<div class="empty-state"><div class="icon">🔍</div><p>No predictions match the "${filter}" filter.</p></div>`;
+      return;
+    }
+
     let html = `<table class="log-table"><thead><tr>
-      <th>Date</th><th>Game</th><th>Predictions</th><th>Result</th><th>Actions</th>
+      <th>Date</th><th>Game</th><th>Predictions</th><th>Bet</th><th>Result</th><th>Actions</th>
     </tr></thead><tbody>`;
 
     for (const log of logs) {
@@ -564,33 +1043,73 @@ const UI = {
         predSummary = log.tierBreakdown.length + " sets";
       }
 
-      let resultCol = '<span style="color:var(--text-muted)">Pending</span>';
+      // Bet status badge
+      const betBadge = log.betPlaced
+        ? '<span class="badge badge-bet">🎫 BET</span>'
+        : '<span class="badge badge-nobet">—</span>';
+
+      // Result / Win status with visual indicators
+      let resultCol = '<span class="badge badge-pending">⏳ Pending</span>';
+      const won = this.isLogWon(log);
       if (log.accuracy) {
         if (log.game === "4d") {
           const hits = log.accuracy.hits;
-          resultCol =
-            hits > 0
-              ? `<span class="tag tag-green">${hits} hit${hits > 1 ? "s" : ""}</span>`
-              : '<span class="tag tag-red">No hits</span>';
+          if (hits > 0) {
+            resultCol = `<span class="badge badge-won">🏆 ${hits} hit${hits > 1 ? "s" : ""}</span>`;
+            if (log.accuracy.top3Hits > 0) resultCol += ` <span class="badge badge-top3">⭐ Top3</span>`;
+          } else {
+            resultCol = '<span class="badge badge-lost">❌ No hits</span>';
+          }
         } else {
-          resultCol = `Best: ${log.accuracy.bestMatch} match${log.accuracy.bestMatch !== 1 ? "es" : ""}`;
+          const best = log.accuracy.bestMatch;
+          if (log.accuracy.anyPrize) {
+            resultCol = `<span class="badge badge-won">🏆 ${best} matches</span>`;
+          } else if (best >= 2) {
+            resultCol = `<span class="badge badge-close">🔶 ${best} matches</span>`;
+          } else {
+            resultCol = `<span class="badge badge-lost">❌ ${best} match</span>`;
+          }
         }
       }
 
-      html += `<tr>
+      // Row class for visual differentiation
+      let rowClass = "";
+      if (log.betPlaced && won) rowClass = "log-row-bet-won";
+      else if (log.betPlaced && log.accuracy && !won) rowClass = "log-row-bet-lost";
+      else if (log.betPlaced) rowClass = "log-row-bet";
+      else if (won) rowClass = "log-row-won";
+      else if (log.accuracy && !won) rowClass = "log-row-lost";
+
+      html += `<tr class="${rowClass}">
         <td>${date}</td>
         <td>${game}</td>
         <td style="font-family:monospace;font-size:0.8rem">${predSummary}</td>
+        <td>${betBadge}</td>
         <td>${resultCol}</td>
-        <td>
-          ${!log.accuracy ? `<button class="btn btn-secondary btn-sm" onclick="App.checkResult('${log.id}')">✅ Check</button>` : ""}
-          <button class="btn btn-secondary btn-sm" onclick="App.viewLogDetail('${log.id}')">👁</button>
+        <td class="log-actions">
+          <button class="btn btn-sm ${log.betPlaced ? "btn-bet-active" : "btn-secondary"}" onclick="App.toggleBet('${log.id}')" title="${log.betPlaced ? "Remove bet" : "Mark as bet placed"}">
+            ${log.betPlaced ? "🎫" : "🎟️"}
+          </button>
+          ${!log.accuracy ? `<button class="btn btn-secondary btn-sm" onclick="App.checkResult('${log.id}')" title="Check result">✅</button>` : ""}
+          <button class="btn btn-secondary btn-sm" onclick="App.viewLogDetail('${log.id}')" title="View details">👁</button>
         </td>
       </tr>`;
     }
 
     html += "</tbody></table>";
+    html += `<div style="margin-top:0.75rem;font-size:0.8rem;color:var(--text-muted);text-align:center">
+      Showing ${logs.length} of ${allLogs.length} predictions · 
+      🎫 ${betStats.totalBets} bets placed · 
+      🏆 ${betStats.betsWon} won · 
+      ❌ ${betStats.betsLost} lost
+    </div>`;
     el.innerHTML = html;
+  },
+
+  isLogWon(log) {
+    if (!log.accuracy) return false;
+    if (log.game === "4d") return log.accuracy.hits > 0;
+    return log.accuracy.anyPrize;
   },
 
   // ===== Utility =====

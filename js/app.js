@@ -5,6 +5,7 @@ const App = {
 
   async init() {
     UI.initTabs();
+    UI.initLogFilters();
     this.bindEvents();
 
     try {
@@ -180,6 +181,14 @@ const App = {
     document.getElementById("btnSaveToto").style.display = "none";
   },
 
+  toggleBet(logId) {
+    const entry = PredictionLogger.toggleBet(logId);
+    if (entry) {
+      UI.toast(entry.betPlaced ? "Marked as bet placed 🎫" : "Bet removed", entry.betPlaced ? "success" : "info");
+      UI.renderLogs();
+    }
+  },
+
   checkResult(logId) {
     const logs = PredictionLogger.getAll();
     const log = logs.find((l) => l.id === logId);
@@ -282,6 +291,7 @@ const App = {
 
     let html = `<p style="color:var(--text-muted);margin-bottom:0.5rem">${new Date(log.timestamp).toLocaleString()} · ${log.game.toUpperCase()}</p>`;
     html += `<p style="margin-bottom:0.5rem">Draws analyzed: ${log.drawsAnalyzed}</p>`;
+    html += `<p style="margin-bottom:0.75rem">Bet status: ${log.betPlaced ? '<span class="badge badge-bet">🎫 BET PLACED</span>' : '<span class="badge badge-nobet">Not bet</span>'}</p>`;
 
     html += '<div style="margin-top:0.75rem">';
     for (const tb of log.tierBreakdown) {
