@@ -244,10 +244,18 @@ const PredictionLogger = {
     const betsChecked = bets.filter((l) => l.accuracy);
     const noBetsChecked = noBets.filter((l) => l.accuracy);
 
-    const betsWon4D = betsChecked.filter((l) => l.game === "4d" && l.accuracy && l.accuracy.hits > 0).length;
-    const betsWonToto = betsChecked.filter((l) => l.game === "toto" && l.accuracy && l.accuracy.anyPrize).length;
-    const noBetsWon4D = noBetsChecked.filter((l) => l.game === "4d" && l.accuracy && l.accuracy.hits > 0).length;
-    const noBetsWonToto = noBetsChecked.filter((l) => l.game === "toto" && l.accuracy && l.accuracy.anyPrize).length;
+    const betsWon4D = betsChecked.filter(
+      (l) => l.game === "4d" && l.accuracy && l.accuracy.hits > 0,
+    ).length;
+    const betsWonToto = betsChecked.filter(
+      (l) => l.game === "toto" && l.accuracy && l.accuracy.anyPrize,
+    ).length;
+    const noBetsWon4D = noBetsChecked.filter(
+      (l) => l.game === "4d" && l.accuracy && l.accuracy.hits > 0,
+    ).length;
+    const noBetsWonToto = noBetsChecked.filter(
+      (l) => l.game === "toto" && l.accuracy && l.accuracy.anyPrize,
+    ).length;
 
     return {
       totalBets: bets.length,

@@ -287,7 +287,8 @@ const UI = {
 
   renderAnalysisBanner(draws4D, drawsToto) {
     document.getElementById("analysisDraw4DCount").textContent = draws4D.length;
-    document.getElementById("analysisDrawTotoCount").textContent = drawsToto.length;
+    document.getElementById("analysisDrawTotoCount").textContent =
+      drawsToto.length;
 
     // Draw range
     if (draws4D.length > 0) {
@@ -673,7 +674,11 @@ const UI = {
           scales: {
             y: { beginAtZero: true, ticks: { color: "#8b949e" } },
             x: {
-              title: { display: true, text: "Gap Between Consecutive Numbers", color: "#8b949e" },
+              title: {
+                display: true,
+                text: "Gap Between Consecutive Numbers",
+                color: "#8b949e",
+              },
               ticks: { color: "#8b949e" },
             },
           },
@@ -826,7 +831,9 @@ const UI = {
           plugins: { legend: { display: false } },
           scales: {
             y: { beginAtZero: true, ticks: { color: "#8b949e" } },
-            x: { ticks: { color: "#8b949e", maxRotation: 60, font: { size: 9 } } },
+            x: {
+              ticks: { color: "#8b949e", maxRotation: 60, font: { size: 9 } },
+            },
           },
         },
       },
@@ -880,8 +887,15 @@ const UI = {
       }
     }
     gapEntries.sort((a, b) => a.gap - b.gap);
-    const mostFreqByGap = gapEntries.slice(0, 8).map((e) => e.num).join(", ");
-    const longestGap = gapEntries.slice(-5).reverse().map((e) => e.num).join(", ");
+    const mostFreqByGap = gapEntries
+      .slice(0, 8)
+      .map((e) => e.num)
+      .join(", ");
+    const longestGap = gapEntries
+      .slice(-5)
+      .reverse()
+      .map((e) => e.num)
+      .join(", ");
 
     el.innerHTML = `
       <div class="stat-grid" style="margin-top:0.5rem">
@@ -906,7 +920,10 @@ const UI = {
         <p style="margin-bottom:0.5rem"><strong style="color:var(--accent-green)">📈 Shortest Avg Gap (most regular):</strong> ${mostFreqByGap || "—"}</p>
         <p style="margin-bottom:0.5rem"><strong style="color:var(--accent-orange)">📉 Longest Avg Gap (least regular):</strong> ${longestGap || "—"}</p>
         <p><strong style="color:var(--accent-purple)">🔮 Top Triplets:</strong>
-          ${triplets.topTriplets.slice(0, 5).map((t) => `<span class="triplet-chip">${t[0]} (×${t[1]})</span>`).join(" ")}
+          ${triplets.topTriplets
+            .slice(0, 5)
+            .map((t) => `<span class="triplet-chip">${t[0]} (×${t[1]})</span>`)
+            .join(" ")}
         </p>
       </div>
     `;
@@ -965,7 +982,9 @@ const UI = {
   initLogFilters() {
     document.querySelectorAll(".log-filter-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
-        document.querySelectorAll(".log-filter-btn").forEach((b) => b.classList.remove("active"));
+        document
+          .querySelectorAll(".log-filter-btn")
+          .forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
         this.currentLogFilter = btn.dataset.filter;
         this.renderLogs();
@@ -1016,8 +1035,7 @@ const UI = {
     });
 
     if (logs.length === 0) {
-      el.innerHTML =
-        `<div class="empty-state"><div class="icon">🔍</div><p>No predictions match the "${filter}" filter.</p></div>`;
+      el.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>No predictions match the "${filter}" filter.</p></div>`;
       return;
     }
 
@@ -1056,7 +1074,8 @@ const UI = {
           const hits = log.accuracy.hits;
           if (hits > 0) {
             resultCol = `<span class="badge badge-won">🏆 ${hits} hit${hits > 1 ? "s" : ""}</span>`;
-            if (log.accuracy.top3Hits > 0) resultCol += ` <span class="badge badge-top3">⭐ Top3</span>`;
+            if (log.accuracy.top3Hits > 0)
+              resultCol += ` <span class="badge badge-top3">⭐ Top3</span>`;
           } else {
             resultCol = '<span class="badge badge-lost">❌ No hits</span>';
           }
@@ -1075,7 +1094,8 @@ const UI = {
       // Row class for visual differentiation
       let rowClass = "";
       if (log.betPlaced && won) rowClass = "log-row-bet-won";
-      else if (log.betPlaced && log.accuracy && !won) rowClass = "log-row-bet-lost";
+      else if (log.betPlaced && log.accuracy && !won)
+        rowClass = "log-row-bet-lost";
       else if (log.betPlaced) rowClass = "log-row-bet";
       else if (won) rowClass = "log-row-won";
       else if (log.accuracy && !won) rowClass = "log-row-lost";

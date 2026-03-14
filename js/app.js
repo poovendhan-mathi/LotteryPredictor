@@ -184,7 +184,10 @@ const App = {
   toggleBet(logId) {
     const entry = PredictionLogger.toggleBet(logId);
     if (entry) {
-      UI.toast(entry.betPlaced ? "Marked as bet placed 🎫" : "Bet removed", entry.betPlaced ? "success" : "info");
+      UI.toast(
+        entry.betPlaced ? "Marked as bet placed 🎫" : "Bet removed",
+        entry.betPlaced ? "success" : "info",
+      );
       UI.renderLogs();
     }
   },

@@ -430,7 +430,11 @@ body {
 
 /* ===== Analysis Banner ===== */
 .analysis-banner {
-  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(240, 180, 41, 0.08) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    var(--bg-card) 0%,
+    rgba(240, 180, 41, 0.08) 100%
+  ) !important;
   border: 1px solid rgba(240, 180, 41, 0.25) !important;
 }
 
@@ -489,10 +493,18 @@ body {
   transition: width 0.5s ease;
 }
 
-.ratio-fill-gold { background: rgba(240, 180, 41, 0.85); }
-.ratio-fill-blue { background: rgba(88, 166, 255, 0.7); }
-.ratio-fill-green { background: rgba(63, 185, 80, 0.85); }
-.ratio-fill-orange { background: rgba(247, 129, 102, 0.7); }
+.ratio-fill-gold {
+  background: rgba(240, 180, 41, 0.85);
+}
+.ratio-fill-blue {
+  background: rgba(88, 166, 255, 0.7);
+}
+.ratio-fill-green {
+  background: rgba(63, 185, 80, 0.85);
+}
+.ratio-fill-orange {
+  background: rgba(247, 129, 102, 0.7);
+}
 
 .ratio-detail {
   font-size: 0.75rem;
