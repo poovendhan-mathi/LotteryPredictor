@@ -171,13 +171,21 @@ const App = {
 
   save4D() {
     if (!this.last4DResult) return;
-    this._pendingSave = { game: "4d", result: this.last4DResult, btnId: "btnSave4D" };
+    this._pendingSave = {
+      game: "4d",
+      result: this.last4DResult,
+      btnId: "btnSave4D",
+    };
     document.getElementById("betModal").classList.add("visible");
   },
 
   saveToto() {
     if (!this.lastTotoResult) return;
-    this._pendingSave = { game: "toto", result: this.lastTotoResult, btnId: "btnSaveToto" };
+    this._pendingSave = {
+      game: "toto",
+      result: this.lastTotoResult,
+      btnId: "btnSaveToto",
+    };
     document.getElementById("betModal").classList.add("visible");
   },
 
@@ -218,7 +226,8 @@ const App = {
 
     const modal = document.getElementById("resultModal");
     const body = document.getElementById("resultModalBody");
-    document.getElementById("resultModalTitle").textContent = "Check Against Draw";
+    document.getElementById("resultModalTitle").textContent =
+      "Check Against Draw";
 
     if (log.game === "4d") {
       const draws = DataLoader.get4DDraws();
@@ -226,9 +235,12 @@ const App = {
         UI.toast("No 4D draw data available", "error");
         return;
       }
-      let options = draws.map((d) =>
-        `<option value="${d.drawNo}">Draw #${d.drawNo} — ${d.date} (1st: ${d.first})</option>`
-      ).join("");
+      let options = draws
+        .map(
+          (d) =>
+            `<option value="${d.drawNo}">Draw #${d.drawNo} — ${d.date} (1st: ${d.first})</option>`,
+        )
+        .join("");
 
       body.innerHTML = `
         <div style="padding:0.5rem 0">
@@ -245,16 +257,21 @@ const App = {
       // Preview first draw
       const sel = document.getElementById("resDrawSelect");
       this._preview4DDraw(draws, sel.value);
-      sel.addEventListener("change", () => this._preview4DDraw(draws, sel.value));
+      sel.addEventListener("change", () =>
+        this._preview4DDraw(draws, sel.value),
+      );
     } else {
       const draws = DataLoader.getTotoDraws();
       if (!draws || draws.length === 0) {
         UI.toast("No TOTO draw data available", "error");
         return;
       }
-      let options = draws.map((d) =>
-        `<option value="${d.drawNo}">Draw #${d.drawNo} — ${d.date} (${d.winning.join(", ")})</option>`
-      ).join("");
+      let options = draws
+        .map(
+          (d) =>
+            `<option value="${d.drawNo}">Draw #${d.drawNo} — ${d.date} (${d.winning.join(", ")})</option>`,
+        )
+        .join("");
 
       body.innerHTML = `
         <div style="padding:0.5rem 0">
@@ -270,7 +287,9 @@ const App = {
       `;
       const sel = document.getElementById("resDrawSelect");
       this._previewTotoDraw(draws, sel.value);
-      sel.addEventListener("change", () => this._previewTotoDraw(draws, sel.value));
+      sel.addEventListener("change", () =>
+        this._previewTotoDraw(draws, sel.value),
+      );
     }
 
     modal.classList.add("visible");
@@ -279,7 +298,10 @@ const App = {
   _preview4DDraw(draws, drawNo) {
     const d = draws.find((x) => String(x.drawNo) === String(drawNo));
     const el = document.getElementById("resDrawPreview");
-    if (!d) { el.innerHTML = ""; return; }
+    if (!d) {
+      el.innerHTML = "";
+      return;
+    }
     el.innerHTML = `
       <div><strong>1st:</strong> <span style="color:var(--accent-gold);font-family:monospace">${d.first}</span>
         <strong style="margin-left:0.5rem">2nd:</strong> <span style="color:var(--accent-red);font-family:monospace">${d.second}</span>
@@ -292,7 +314,10 @@ const App = {
   _previewTotoDraw(draws, drawNo) {
     const d = draws.find((x) => String(x.drawNo) === String(drawNo));
     const el = document.getElementById("resDrawPreview");
-    if (!d) { el.innerHTML = ""; return; }
+    if (!d) {
+      el.innerHTML = "";
+      return;
+    }
     el.innerHTML = `
       <div><strong>Winning:</strong> <span style="color:var(--accent-gold)">${d.winning.join(", ")}</span></div>
       <div style="margin-top:0.3rem"><strong>Additional:</strong> <span style="color:var(--accent-green)">${d.additional}</span></div>
@@ -303,7 +328,10 @@ const App = {
     const drawNo = document.getElementById("resDrawSelect").value;
     const draws = DataLoader.get4DDraws();
     const d = draws.find((x) => String(x.drawNo) === String(drawNo));
-    if (!d) { UI.toast("Draw not found", "error"); return; }
+    if (!d) {
+      UI.toast("Draw not found", "error");
+      return;
+    }
 
     PredictionLogger.updateResult(logId, {
       first: d.first,
@@ -321,7 +349,10 @@ const App = {
     const drawNo = document.getElementById("resDrawSelect").value;
     const draws = DataLoader.getTotoDraws();
     const d = draws.find((x) => String(x.drawNo) === String(drawNo));
-    if (!d) { UI.toast("Draw not found", "error"); return; }
+    if (!d) {
+      UI.toast("Draw not found", "error");
+      return;
+    }
 
     PredictionLogger.updateResult(logId, {
       winning: d.winning,
