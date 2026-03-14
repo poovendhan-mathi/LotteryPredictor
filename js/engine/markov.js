@@ -39,28 +39,49 @@ const MarkovEngine = {
     return matrices;
   },
 
-  // Build cross-draw transition matrix for 4D
-  // Tracks which numbers in draw N predict numbers in draw N+1
+  // Build cross-draw DIGIT transition matrix for 4D
+  // Instead of exact number→number (too sparse), track digit-level transitions
+  // across draws: what digit at pos P in draw N predicts digit at pos P in draw N+1
   build4DCrossDrawMatrix(draws) {
-    const transitions = {}; // {fromNum: {toNum: count}}
+    // 4 position-specific 10×10 matrices
+    const matrices = Array.from({ length: 4 }, () =>
+      Array.from({ length: 10 }, () => Array(10).fill(0)),
+    );
     const decay = 0.97;
 
     for (let d = 0; d < draws.length - 1; d++) {
       const weight = Math.pow(decay, d);
-      const currentNums = [draws[d].first, draws[d].second, draws[d].third];
+      const currentNums = [
+        draws[d].first,
+        draws[d].second,
+        draws[d].third,
+        ...draws[d].starters,
+      ];
       const nextNums = [
         draws[d + 1].first,
         draws[d + 1].second,
         draws[d + 1].third,
+        ...draws[d + 1].starters,
       ];
       for (const from of currentNums) {
-        if (!transitions[from]) transitions[from] = {};
+        const fromStr = from.padStart(4, "0");
         for (const to of nextNums) {
-          transitions[from][to] = (transitions[from][to] || 0) + weight;
+          const toStr = to.padStart(4, "0");
+          for (let p = 0; p < 4; p++) {
+            matrices[p][parseInt(fromStr[p])][parseInt(toStr[p])] += weight;
+          }
         }
       }
     }
-    return transitions;
+    // Normalize
+    for (const mat of matrices) {
+      for (let i = 0; i < 10; i++) {
+        const rowSum = mat[i].reduce((s, v) => s + v, 0);
+        if (rowSum > 0) mat[i] = mat[i].map((v) => v / rowSum);
+        else mat[i] = Array(10).fill(0.1);
+      }
+    }
+    return matrices;
   },
 
   // Build 49x49 transition matrix for TOTO
@@ -91,19 +112,44 @@ const MarkovEngine = {
     return matrix;
   },
 
-  // Predict next 4D numbers using Markov chain
+  // Predict next 4D numbers using Markov chain (v2 — digit-level cross-draw)
   predict4D(draws, topN = 20) {
     const posMatrices = this.build4DPositionalMatrix(draws);
-    const crossDraw = this.build4DCrossDrawMatrix(draws);
+    const crossDrawMatrices = this.build4DCrossDrawMatrix(draws);
     const lastDraw = draws[0];
-    const lastTop3 = [lastDraw.first, lastDraw.second, lastDraw.third];
+    const lastNums = [
+      lastDraw.first,
+      lastDraw.second,
+      lastDraw.third,
+      ...lastDraw.starters,
+    ];
+
+    // Compute cross-draw digit predictions: for each position,
+    // average the transition probabilities from all last-draw digits at that position
+    const crossDrawProbs = Array.from({ length: 4 }, () => Array(10).fill(0));
+    for (const num of lastNums) {
+      const str = num.padStart(4, "0");
+      for (let p = 0; p < 4; p++) {
+        const fromDigit = parseInt(str[p]);
+        for (let d = 0; d < 10; d++) {
+          crossDrawProbs[p][d] += crossDrawMatrices[p][fromDigit][d];
+        }
+      }
+    }
+    // Normalize
+    for (let p = 0; p < 4; p++) {
+      const total = crossDrawProbs[p].reduce((s, v) => s + v, 0);
+      if (total > 0)
+        crossDrawProbs[p] = crossDrawProbs[p].map((v) => v / total);
+      else crossDrawProbs[p] = Array(10).fill(0.1);
+    }
 
     const scores = {};
 
-    // Score all 10000 numbers using positional transitions
+    // Score all 10000 numbers using positional chain + cross-draw digit probs
     for (let n = 0; n < 10000; n++) {
       const str = n.toString().padStart(4, "0");
-      // Positional chain probability
+      // Positional chain probability (internal structure)
       let chainProb = 1;
       for (let p = 0; p < 3; p++) {
         const from = parseInt(str[p]);
@@ -111,18 +157,17 @@ const MarkovEngine = {
         chainProb *= posMatrices[p][from][to];
       }
 
-      // Cross-draw transition boost
-      let crossBoost = 0;
-      for (const prevNum of lastTop3) {
-        if (crossDraw[prevNum] && crossDraw[prevNum][str]) {
-          crossBoost += crossDraw[prevNum][str];
-        }
+      // Cross-draw digit probability (what digits are predicted at each position)
+      let crossProb = 1;
+      for (let p = 0; p < 4; p++) {
+        crossProb *= crossDrawProbs[p][parseInt(str[p])];
       }
+      crossProb = Math.pow(crossProb, 0.25); // geometric mean
 
       scores[str] = {
         chainProb,
-        crossBoost,
-        combined: chainProb * 0.7 + crossBoost * 0.3,
+        crossProb,
+        combined: chainProb * 0.5 + crossProb * 0.5,
       };
     }
 

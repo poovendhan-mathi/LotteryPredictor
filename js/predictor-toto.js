@@ -1,4 +1,4 @@
-// TOTO Prediction Orchestrator — calls all tiers → ensemble → anomaly → output
+// TOTO Prediction Engine v2 — Multi-Dimensional Scoring + Constraint-Based Sets
 const PredictorToto = {
   async generate(setsCount = 5, options = {}) {
     const draws = DataLoader.getTotoDraws(options.historyLimit || 80);
@@ -7,7 +7,7 @@ const PredictorToto = {
 
     const t0 = performance.now();
 
-    // ===== Tier 1: Foundational Statistics =====
+    // ===== Phase 1: Precompute ALL statistics =====
     const freq = AnalysisToto.numberFrequency(draws);
     const hotCold = AnalysisToto.hotColdNumbers(draws);
     const overdue = AnalysisToto.overdueAnalysis(draws);
@@ -19,110 +19,183 @@ const PredictorToto = {
     const oddEven = AnalysisToto.oddEvenDistribution(draws);
     const hiLo = AnalysisToto.highLowDistribution(draws);
     const consec = AnalysisToto.consecutiveAnalysis(draws);
+    const transitions = AnalysisToto.numberTransitions(draws, 0.95);
+    const structProfile = AnalysisToto.structuralProfile(draws);
 
-    // ===== Tier 2: Markov Chains =====
+    // ===== Phase 2: Tier engines =====
     const markovPredictions = MarkovEngine.predictToto(draws, 30);
+    const markovMap = new Map();
+    for (const mp of markovPredictions) markovMap.set(mp.num, mp.score);
 
-    // ===== Tier 3: Cycle Detection =====
     const cycleResults = CycleEngine.analyzeTotoCycles(draws);
+    const cycleMap = new Map();
+    if (Array.isArray(cycleResults)) {
+      for (const cp of cycleResults) cycleMap.set(cp.num, cp.combinedScore);
+    }
 
-    // ===== Tier 5: Bayesian Posteriors =====
     const bayesianScores = BayesianEngine.scoreToto(draws);
+    const bayesMap = new Map();
+    for (const bs of bayesianScores) bayesMap.set(bs.num, bs.score);
 
-    // ===== Tier 6: Anomaly Scan =====
     const anomalyReport = AnomalyEngine.scanToto(draws);
 
-    // ===== Number Scoring (1-49) =====
+    // ===== Phase 3: Transition-based predictions =====
+    // Which numbers are likely based on what appeared in the LAST draw?
+    const lastWinning = draws[0].winning;
+    const transitionScores = Array(50).fill(0);
+    for (const n of lastWinning) {
+      if (transitions[n]) {
+        for (let m = 1; m <= 49; m++) {
+          transitionScores[m] += transitions[n][m];
+        }
+      }
+    }
+    // Normalize transition scores
+    const maxTrans = Math.max(...transitionScores.slice(1), 0.001);
+
+    // ===== Phase 4: Comprehensive Number Scoring (7 dimensions) =====
     const numberScores = [];
     for (let n = 1; n <= 49; n++) {
-      const scoreResult = AnalysisToto.scoreNumber(n, draws);
-      const freqScore = (scoreResult.freqScore + scoreResult.overdueScore) / 2;
-      const tierScores = {
-        frequency: freqScore,
-        markov: 0,
-        cycles: 0,
-        bayesian: 0,
-        anomaly: 0,
+      const sr = AnalysisToto.scoreNumber(n, draws);
+
+      // Dimension scores
+      const dims = {
+        frequency: sr.freqScore, // How often it appears
+        overdue: sr.overdueScore, // How long since last seen
+        gapRhythm: sr.gapScore, // Is it "due" by its gap pattern?
+        trend: sr.trendScore, // Increasing or decreasing?
+        markov: markovMap.get(n) || 0, // Markov chain prediction
+        cycles: cycleMap.get(n) || 0, // Cycle detection
+        bayesian: bayesMap.get(n) || 0, // Bayesian posterior
+        anomaly:
+          (anomalyReport.bonusScores && anomalyReport.bonusScores[n]) || 0,
+        transition: transitionScores[n] / maxTrans, // Follow-on from last draw
+        decade: sr.decadeScore, // Decade balance
       };
 
-      // Markov score
-      const mp = markovPredictions.find((p) => p.num === n);
-      tierScores.markov = mp ? mp.score : 0;
-
-      // Cycle score
-      if (Array.isArray(cycleResults)) {
-        const cp = cycleResults.find((p) => p.num === n);
-        tierScores.cycles = cp ? cp.combinedScore : 0;
-      }
-
-      // Bayesian score
-      const bs = bayesianScores.find((s) => s.num === n);
-      tierScores.bayesian = bs ? bs.score : 0;
-
-      // Anomaly bonus (per-number bonus)
-      tierScores.anomaly =
-        (anomalyReport.bonusScores && anomalyReport.bonusScores[n]) || 0;
-
-      // Inline weighted sum
+      // Weighted ensemble — balanced between data-driven and pattern methods
       const w = {
-        frequency: 0.2,
-        markov: 0.2,
-        cycles: 0.15,
-        bayesian: 0.25,
-        anomaly: 0.2,
+        frequency: 0.12,
+        overdue: 0.1,
+        gapRhythm: 0.1,
+        trend: 0.08,
+        markov: 0.12,
+        cycles: 0.08,
+        bayesian: 0.15,
+        anomaly: 0.05,
+        transition: 0.12,
+        decade: 0.08,
       };
+
       let ensembleScore = 0;
       for (const [k, wt] of Object.entries(w))
-        ensembleScore += (tierScores[k] || 0) * wt;
+        ensembleScore += (dims[k] || 0) * wt;
+
+      // Consensus bonus: more dimensions agreeing = more reliable
+      const activeCount = Object.values(dims).filter((v) => v > 0.1).length;
+      const consensusBonus = activeCount >= 6 ? (activeCount - 5) * 0.005 : 0;
+
+      const tierScores = {
+        frequency: (dims.frequency + dims.trend) / 2,
+        markov: dims.markov,
+        cycles: dims.cycles,
+        bayesian: dims.bayesian,
+        anomaly: dims.anomaly,
+      };
 
       numberScores.push({
         number: n,
-        score: ensembleScore,
+        score: ensembleScore + consensusBonus,
         tierScores,
+        dims,
       });
     }
 
     numberScores.sort((a, b) => b.score - a.score);
 
-    // ===== Generate Sets =====
+    // ===== Phase 5: Constraint-Based Set Generation =====
+    const idealSum = sumData.idealRange;
+    const targetOdd = oddEven.mostCommonSplit ? oddEven.mostCommonSplit.odd : 3;
+    const targetHigh = hiLo.mostCommonSplit ? hiLo.mostCommonSplit.high : 3;
+    const maxConsecAllowed = consec.rate > 0.5 ? 2 : 1; // If >50% draws have consecutive, allow some
+
     const sets = [];
-    for (let s = 0; s < setsCount; s++) {
-      const set = this.buildSet(
+    const usedSets = new Set(); // Avoid duplicate sets
+
+    // Generate many candidate sets, keep the best
+    const candidateSets = [];
+    const strategies = [
+      "top-constrained",
+      "balanced-spread",
+      "pair-cluster",
+      "gap-driven",
+      "transition-focus",
+      "diverse-mix",
+    ];
+
+    for (let attempt = 0; attempt < setsCount * 30; attempt++) {
+      const strategy = strategies[attempt % strategies.length];
+      const set = this._buildConstrainedSet(
         numberScores,
         pairData,
         sumData,
         oddEven,
         hiLo,
-        consec,
-        s,
+        transitions,
+        gaps,
+        overdue,
+        draws,
+        strategy,
+        targetOdd,
+        targetHigh,
+        idealSum,
+        maxConsecAllowed,
       );
-      const setScoreTotal = set.reduce((acc, n) => {
-        const ns = numberScores.find((x) => x.number === n);
-        return acc + (ns ? ns.score : 0);
-      }, 0);
 
-      // Pair affinity bonus
-      let pairBonus = 0;
-      for (let i = 0; i < set.length; i++) {
-        for (let j = i + 1; j < set.length; j++) {
-          const pairKey =
-            Math.min(set[i], set[j]) + "-" + Math.max(set[i], set[j]);
-          pairBonus += pairData.pairCount[pairKey] || 0;
-        }
-      }
+      if (!set || set.length !== 6) continue;
 
-      sets.push({
-        numbers: set,
-        score: setScoreTotal + pairBonus * 0.2,
-        sum: set.reduce((a, b) => a + b, 0),
-        oddCount: set.filter((n) => n % 2 !== 0).length,
-        highCount: set.filter((n) => n >= 25).length,
-        confidence: this.calculateSetConfidence(set, numberScores),
-      });
+      const setKey = [...set].sort((a, b) => a - b).join("-");
+      if (usedSets.has(setKey)) continue;
+      usedSets.add(setKey);
+
+      // Score the set
+      const setScore = this._scoreSet(
+        set,
+        numberScores,
+        pairData,
+        tripletData,
+        sumData,
+        oddEven,
+        hiLo,
+        structProfile,
+      );
+      candidateSets.push({ numbers: set, ...setScore });
     }
 
-    // Sort sets by score
-    sets.sort((a, b) => b.score - a.score);
+    // Sort by set score and take top N
+    candidateSets.sort((a, b) => b.score - a.score);
+
+    // Pick diverse top sets (ensure different number compositions)
+    for (const cs of candidateSets) {
+      if (sets.length >= setsCount) break;
+      const isDiverse = sets.every((existing) => {
+        const overlap = existing.numbers.filter((n) =>
+          cs.numbers.includes(n),
+        ).length;
+        return overlap <= 3; // Max 3 shared numbers between any two sets
+      });
+      if (isDiverse) sets.push(cs);
+    }
+
+    // Fallback: if we couldn't fill enough diverse sets, relax constraint
+    if (sets.length < setsCount) {
+      for (const cs of candidateSets) {
+        if (sets.length >= setsCount) break;
+        if (!sets.some((s) => s.numbers.join("-") === cs.numbers.join("-"))) {
+          sets.push(cs);
+        }
+      }
+    }
 
     const elapsed = performance.now() - t0;
 
@@ -133,6 +206,8 @@ const PredictorToto = {
         drawsAnalyzed: draws.length,
         elapsedMs: Math.round(elapsed),
         latestDraw: draws[0],
+        candidateSetsGenerated: candidateSets.length,
+        sumIdealRange: idealSum,
       },
       analysis: {
         hotCold,
@@ -144,178 +219,283 @@ const PredictorToto = {
         anomalyReport,
         cycleResults,
       },
-      weights: EnsembleEngine.defaultWeightsToto,
+      weights: {
+        frequency: 0.12,
+        overdue: 0.1,
+        gapRhythm: 0.1,
+        trend: 0.08,
+        markov: 0.12,
+        cycles: 0.08,
+        bayesian: 0.15,
+        anomaly: 0.05,
+        transition: 0.12,
+        decade: 0.08,
+      },
     };
   },
 
-  // Build a single set of 6 numbers with constraints
-  buildSet(numberScores, pairData, sumData, oddEven, hiLo, consec, setIndex) {
-    const targetOdd = oddEven.mostCommonSplit ? oddEven.mostCommonSplit.odd : 3;
-    const targetHigh = hiLo.mostCommonSplit ? hiLo.mostCommonSplit.high : 3;
+  // Build a single set with hard structural constraints
+  _buildConstrainedSet(
+    numberScores,
+    pairData,
+    sumData,
+    oddEven,
+    hiLo,
+    transitions,
+    gaps,
+    overdue,
+    draws,
+    strategy,
+    targetOdd,
+    targetHigh,
+    idealSum,
+    maxConsec,
+  ) {
+    const set = [];
+    const used = new Set();
+    const maxAttempts = 300;
 
-    // Use different strategies per set for diversity
-    const strategies = [
-      "top",
-      "balanced",
-      "overdue-mix",
-      "pair-focus",
-      "spread",
-    ];
-    const strategy = strategies[setIndex % strategies.length];
+    // Create weighted pool based on strategy
+    let pool;
+    switch (strategy) {
+      case "top-constrained":
+        // Top-ranked numbers with constraint enforcement
+        pool = numberScores.slice(0, 25);
+        break;
+      case "balanced-spread":
+        // Ensure good spread: pick from each decade
+        pool = numberScores.slice(0, 35);
+        break;
+      case "pair-cluster":
+        // Start with a strong pair, build around it
+        pool = numberScores.slice(0, 30);
+        break;
+      case "gap-driven":
+        // Favor numbers that are overdue by their gap pattern
+        pool = [...numberScores]
+          .sort(
+            (a, b) =>
+              b.dims.gapRhythm +
+              b.dims.overdue -
+              (a.dims.gapRhythm + a.dims.overdue),
+          )
+          .slice(0, 25);
+        break;
+      case "transition-focus":
+        // Favor numbers predicted by transitions from last draw
+        pool = [...numberScores]
+          .sort(
+            (a, b) =>
+              b.dims.transition + b.score - (a.dims.transition + a.score),
+          )
+          .slice(0, 25);
+        break;
+      case "diverse-mix":
+        // Mix: 2 from top, 2 from middle, 2 from gap-driven
+        pool = numberScores.slice(0, 40);
+        break;
+      default:
+        pool = numberScores.slice(0, 25);
+    }
 
-    const pool = [...numberScores];
-    const set = new Set();
-    const maxAttempts = 200;
-    let attempts = 0;
+    // For pair-cluster: seed with a top pair
+    if (strategy === "pair-cluster" && pairData.topPairs.length > 0) {
+      const pairIdx = Math.floor(
+        Math.random() * Math.min(10, pairData.topPairs.length),
+      );
+      const [pairKey] = pairData.topPairs[pairIdx];
+      const [a, b] = pairKey.split("-").map(Number);
+      // Only use if both are in the top pool
+      if (
+        pool.some((p) => p.number === a) &&
+        pool.some((p) => p.number === b)
+      ) {
+        set.push(a, b);
+        used.add(a);
+        used.add(b);
+      }
+    }
 
-    while (set.size < 6 && attempts < maxAttempts) {
-      attempts++;
+    for (let attempt = 0; attempt < maxAttempts && set.length < 6; attempt++) {
+      // Pick from pool with score-weighted probability
       let pick;
-
-      switch (strategy) {
-        case "top":
-          // Straight top scores with slight noise
-          pick = pool[Math.floor(Math.random() * Math.min(15, pool.length))];
-          break;
-        case "balanced":
-          // Balance odd/even and high/low
-          pick = this.pickBalanced(pool, set, targetOdd, targetHigh);
-          break;
-        case "overdue-mix":
-          // Mix top scores with some deeper picks
-          if (set.size < 3) pick = pool[Math.floor(Math.random() * 10)];
-          else pick = pool[Math.floor(Math.random() * 30)];
-          break;
-        case "pair-focus":
-          // Pick numbers with high pair affinity to already-selected
-          pick = this.pickByPairAffinity(pool, set, pairData);
-          break;
-        case "spread":
-          // Ensure good number spread across range
-          pick = this.pickSpread(pool, set);
-          break;
-        default:
-          pick = pool[Math.floor(Math.random() * 12)];
+      if (strategy === "diverse-mix" && set.length < 2) {
+        pick = pool[Math.floor(Math.random() * 8)];
+      } else if (strategy === "diverse-mix" && set.length < 4) {
+        pick = pool[Math.floor(Math.random() * Math.min(25, pool.length))];
+      } else {
+        // Score-weighted selection from pool
+        const availPool = pool.filter((p) => !used.has(p.number));
+        if (availPool.length === 0) break;
+        const totalScore = availPool.reduce((s, p) => s + p.score, 0);
+        let r = Math.random() * totalScore;
+        pick = availPool[availPool.length - 1];
+        for (const p of availPool) {
+          r -= p.score;
+          if (r <= 0) {
+            pick = p;
+            break;
+          }
+        }
       }
 
-      if (!pick) pick = pool[Math.floor(Math.random() * pool.length)];
+      if (!pick || used.has(pick.number)) continue;
 
-      // Validate: check sum won't go out of common range
-      const currentNums = [...set, pick.number];
-      const partialSum = currentNums.reduce((a, b) => a + b, 0);
-      if (set.size === 5) {
-        // Final number: check total sum is in reasonable range (100-200 is typical)
-        if (partialSum < 80 || partialSum > 220) continue;
-      }
+      // ===== Constraint checks =====
+      const candidate = [...set, pick.number];
+      const sorted = candidate.sort((a, b) => a - b);
 
-      // Avoid too many consecutive numbers
-      const sorted = [...currentNums].sort((a, b) => a - b);
-      let maxConsec = 1,
-        curConsec = 1;
+      // 1. Consecutive constraint
+      let maxConsecCount = 1,
+        curConsecCount = 1;
       for (let i = 1; i < sorted.length; i++) {
         if (sorted[i] === sorted[i - 1] + 1) {
-          curConsec++;
-          maxConsec = Math.max(maxConsec, curConsec);
-        } else curConsec = 1;
+          curConsecCount++;
+          maxConsecCount = Math.max(maxConsecCount, curConsecCount);
+        } else curConsecCount = 1;
       }
-      if (maxConsec > 3) continue;
+      if (maxConsecCount > maxConsec + 1) continue;
 
-      set.add(pick.number);
+      // 2. Odd/Even balance check (flexible — allow ±1 from target)
+      if (set.length >= 4) {
+        const oddCount = candidate.filter((n) => n % 2 !== 0).length;
+        const remaining = 6 - candidate.length;
+        if (oddCount > targetOdd + 1 + remaining) continue;
+        if (candidate.length === 6 && Math.abs(oddCount - targetOdd) > 1)
+          continue;
+      }
+
+      // 3. High/Low balance check
+      if (set.length >= 4) {
+        const highCount = candidate.filter((n) => n >= 25).length;
+        const remaining = 6 - candidate.length;
+        if (highCount > targetHigh + 1 + remaining) continue;
+        if (candidate.length === 6 && Math.abs(highCount - targetHigh) > 1)
+          continue;
+      }
+
+      // 4. Sum range check on final set
+      if (candidate.length === 6) {
+        const sum = candidate.reduce((s, n) => s + n, 0);
+        if (sum < idealSum[0] - 15 || sum > idealSum[1] + 15) continue;
+      }
+
+      // 5. Spread check — avoid all numbers from same narrow range
+      if (candidate.length >= 4) {
+        const range = Math.max(...candidate) - Math.min(...candidate);
+        if (range < 15) continue; // Too clustered
+      }
+
+      set.push(pick.number);
+      used.add(pick.number);
     }
 
-    // Fallback: fill remaining with top scores
-    if (set.size < 6) {
+    // Fallback fill
+    if (set.length < 6) {
       for (const ns of numberScores) {
-        if (!set.has(ns.number)) set.add(ns.number);
-        if (set.size >= 6) break;
+        if (!used.has(ns.number)) {
+          set.push(ns.number);
+          used.add(ns.number);
+        }
+        if (set.length >= 6) break;
       }
     }
 
-    return [...set].sort((a, b) => a - b);
+    return set.sort((a, b) => a - b);
   },
 
-  pickBalanced(pool, currentSet, targetOdd, targetHigh) {
-    const nums = [...currentSet];
-    const currentOdd = nums.filter((n) => n % 2 !== 0).length;
-    const currentHigh = nums.filter((n) => n >= 25).length;
-    const remaining = 6 - currentSet.size;
+  // Score a complete set of 6 numbers
+  _scoreSet(
+    set,
+    numberScores,
+    pairData,
+    tripletData,
+    sumData,
+    oddEven,
+    hiLo,
+    structProfile,
+  ) {
+    const sorted = [...set].sort((a, b) => a - b);
 
-    const needOdd = targetOdd - currentOdd;
-    const needHigh = targetHigh - currentHigh;
+    // 1. Sum of individual number scores
+    let numberScore = 0;
+    for (const n of set) {
+      const ns = numberScores.find((x) => x.number === n);
+      numberScore += ns ? ns.score : 0;
+    }
 
-    // Filter pool to satisfy balance
-    let filtered = pool.filter((p) => {
-      if (currentSet.has(p.number)) return false;
-      const isOdd = p.number % 2 !== 0;
-      const isHigh = p.number >= 25;
-      if (needOdd > 0 && remaining <= needOdd && !isOdd) return false;
-      if (needHigh > 0 && remaining <= needHigh && !isHigh) return false;
-      return true;
-    });
-
-    if (filtered.length === 0)
-      filtered = pool.filter((p) => !currentSet.has(p.number));
-    return filtered[Math.floor(Math.random() * Math.min(12, filtered.length))];
-  },
-
-  pickByPairAffinity(pool, currentSet, pairData) {
-    if (currentSet.size === 0) return pool[Math.floor(Math.random() * 10)];
-
-    const nums = [...currentSet];
-    let best = null,
-      bestAffinity = -1;
-    const candidates = pool
-      .filter((p) => !currentSet.has(p.number))
-      .slice(0, 25);
-
-    for (const c of candidates) {
-      let aff = 0;
-      for (const n of nums) {
-        const pk = Math.min(n, c.number) + "-" + Math.max(n, c.number);
-        aff += pairData.pairCount[pk] || 0;
-      }
-      aff += c.score * 0.5;
-      if (aff > bestAffinity) {
-        bestAffinity = aff;
-        best = c;
+    // 2. Pair affinity bonus
+    let pairBonus = 0;
+    for (let i = 0; i < set.length; i++) {
+      for (let j = i + 1; j < set.length; j++) {
+        const key = Math.min(set[i], set[j]) + "-" + Math.max(set[i], set[j]);
+        pairBonus += pairData.pairCount[key] || 0;
       }
     }
-    return best;
-  },
 
-  pickSpread(pool, currentSet) {
-    const nums = [...currentSet].sort((a, b) => a - b);
-    const candidates = pool.filter((p) => !currentSet.has(p.number));
-
-    if (nums.length === 0) return candidates[Math.floor(Math.random() * 10)];
-
-    // Find the biggest gap in current selection vs ideal spread
-    const idealSpread = [1, 10, 20, 30, 40, 49];
-    let bestGapCandidate = null,
-      bestFit = Infinity;
-
-    for (const c of candidates.slice(0, 20)) {
-      const allNums = [...nums, c.number].sort((a, b) => a - b);
-      let deviation = 0;
-      for (let i = 0; i < allNums.length && i < idealSpread.length; i++) {
-        deviation += Math.abs(allNums[i] - idealSpread[i]);
-      }
-      deviation -= c.score * 5; // Favor higher scores
-      if (deviation < bestFit) {
-        bestFit = deviation;
-        bestGapCandidate = c;
+    // 3. Triplet bonus
+    let tripletBonus = 0;
+    for (let i = 0; i < set.length; i++) {
+      for (let j = i + 1; j < set.length; j++) {
+        for (let k = j + 1; k < set.length; k++) {
+          const nums = [set[i], set[j], set[k]].sort((a, b) => a - b);
+          const key = nums.join("-");
+          tripletBonus += tripletData.tripCount[key] || 0;
+        }
       }
     }
-    return bestGapCandidate;
+
+    // 4. Sum fit score
+    const sum = set.reduce((s, n) => s + n, 0);
+    const sumCenter = (sumData.idealRange[0] + sumData.idealRange[1]) / 2;
+    const sumRange = (sumData.idealRange[1] - sumData.idealRange[0]) / 2;
+    const sumFit =
+      sum >= sumData.idealRange[0] && sum <= sumData.idealRange[1]
+        ? 1.0
+        : Math.max(0, 1.0 - Math.abs(sum - sumCenter) / (sumRange * 2));
+
+    // 5. Structural fit
+    const oddCount = set.filter((n) => n % 2 !== 0).length;
+    const highCount = set.filter((n) => n >= 25).length;
+    const structFit =
+      (structProfile.oddCounts[oddCount] || 0) * 0.5 +
+      (structProfile.highCounts[highCount] || 0) * 0.5;
+
+    // 6. Spread score — good distribution across 1-49 range
+    const spread = sorted[5] - sorted[0];
+    const spreadFit = spread >= 25 && spread <= 42 ? 1.0 : 0.5;
+
+    const score =
+      numberScore * 1.0 +
+      pairBonus * 0.15 +
+      tripletBonus * 0.3 +
+      sumFit * 0.5 +
+      structFit * 0.3 +
+      spreadFit * 0.2;
+
+    return {
+      score,
+      sum,
+      oddCount,
+      highCount,
+      confidence: this._calculateSetConfidence(
+        set,
+        numberScores,
+        sumFit,
+        structFit,
+      ),
+    };
   },
 
-  calculateSetConfidence(set, numberScores) {
+  _calculateSetConfidence(set, numberScores, sumFit, structFit) {
     const setScores = set.map((n) => {
       const ns = numberScores.find((x) => x.number === n);
       return ns ? ns.score : 0;
     });
     const mean = setScores.reduce((s, v) => s + v, 0) / setScores.length;
     const maxPossible = numberScores[0] ? numberScores[0].score : 1;
-    return Math.min(1, mean / (maxPossible * 0.6));
+    const scoreConf = Math.min(1, mean / (maxPossible * 0.5));
+    // Blend score confidence with structural fit
+    return scoreConf * 0.6 + sumFit * 0.2 + structFit * 0.2;
   },
 };

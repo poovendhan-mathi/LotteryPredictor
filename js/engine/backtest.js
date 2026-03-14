@@ -132,51 +132,153 @@ const BacktestEngine = {
     };
   },
 
-  // Quick 4D prediction for backtesting (simplified - frequency + overdue + positional)
+  // Quick 4D prediction for backtesting (v2 — profile matching + anti-recency)
   quickPredict4D(draws, count) {
     const { posProb } = Analysis4D.positionalFrequency(draws);
-    const { lastSeen } = Analysis4D.overdueAnalysis(draws);
+    const transitions = Analysis4D.digitTransitionProbs(draws);
+    const sumDist = Analysis4D.sumDistribution(draws);
+    const recentNumbers = Analysis4D.getAllHistoricalNumbers(draws);
 
     const candidates = [];
-    // Sample 2000 random candidates and score them
-    for (let i = 0; i < 2000; i++) {
-      const n = Math.floor(Math.random() * 10000);
-      const str = n.toString().padStart(4, "0");
+    // Generate candidates using conditional probabilities
+    for (let i = 0; i < 3000; i++) {
+      const digits = [];
+      // First digit from positional probability
+      const r0 = Math.random();
+      let cum0 = 0;
+      for (let d = 0; d <= 9; d++) {
+        cum0 += posProb[0][d];
+        if (r0 <= cum0) {
+          digits.push(d);
+          break;
+        }
+      }
+      if (digits.length === 0) digits.push(0);
+      // Remaining digits: blend positional + transition
+      for (let p = 1; p < 4; p++) {
+        const blended = [];
+        for (let d = 0; d < 10; d++) {
+          blended.push(
+            posProb[p][d] * 0.4 + transitions[p - 1][digits[p - 1]][d] * 0.6,
+          );
+        }
+        const total = blended.reduce((s, v) => s + v, 0);
+        const r = Math.random();
+        let cum = 0;
+        let picked = 0;
+        for (let d = 0; d < 10; d++) {
+          cum += blended[d] / total;
+          if (r <= cum) {
+            picked = d;
+            break;
+          }
+        }
+        digits.push(picked);
+      }
+      const str = digits.join("");
+      if (recentNumbers.has(str)) continue;
+      const digitSum = digits.reduce((s, d) => s + d, 0);
+      // Score: positional probability × sum fit
       let score = 1;
-      for (let p = 0; p < 4; p++) score *= posProb[p][parseInt(str[p])];
-      const overdue =
-        lastSeen[str] !== undefined ? lastSeen[str] / draws.length : 0.5;
-      score *= 1 + overdue;
+      for (let p = 0; p < 4; p++) score *= posProb[p][digits[p]];
+      const sumFit =
+        digitSum >= sumDist.sweetSpotLow && digitSum <= sumDist.sweetSpotHigh
+          ? 1.5
+          : 1.0;
+      score *= sumFit;
       candidates.push({ num: str, score });
     }
 
     candidates.sort((a, b) => b.score - a.score);
-    return candidates.slice(0, count).map((c) => c.num);
+    // Diversity filter
+    const result = [];
+    for (const c of candidates) {
+      if (result.length >= count) break;
+      const tooSimilar = result.some((r) => {
+        let match = 0;
+        for (let p = 0; p < 4; p++) if (r[p] === c.num[p]) match++;
+        return match >= 3;
+      });
+      if (!tooSimilar) result.push(c.num);
+    }
+    return result;
   },
 
-  // Quick TOTO prediction for backtesting
+  // Quick TOTO prediction for backtesting (v2 — multi-dimensional + constrained)
   quickPredictToto(draws, setsCount) {
     const freq = AnalysisToto.numberFrequency(draws);
     const lastSeen = AnalysisToto.overdueAnalysis(draws);
+    const gaps = AnalysisToto.gapAnalysis(draws);
+    const sumData = AnalysisToto.sumAnalysis(draws);
+    const pairData = AnalysisToto.pairAnalysis(draws);
 
+    // Multi-dimensional scoring
+    const maxFreq = Math.max(...freq.slice(1), 1);
     const scores = [];
     for (let n = 1; n <= 49; n++) {
-      const freqScore = freq[n] / (Math.max(...freq.slice(1)) || 1);
+      const freqScore = freq[n] / maxFreq;
       const overdueScore = Math.min(lastSeen[n] / (draws.length * 0.3), 1);
-      scores.push({ num: n, score: freqScore * 0.6 + overdueScore * 0.4 });
+      // Gap rhythm
+      const avgGap = gaps.avgGaps[n];
+      const drawsSince = lastSeen[n];
+      let gapScore = 0;
+      if (avgGap > 0 && avgGap < draws.length) {
+        const ratio = drawsSince / avgGap;
+        gapScore = Math.exp((-0.5 * Math.pow(ratio - 1, 2)) / 0.25);
+      }
+      scores.push({
+        num: n,
+        score: freqScore * 0.35 + overdueScore * 0.3 + gapScore * 0.35,
+      });
     }
     scores.sort((a, b) => b.score - a.score);
 
+    const idealSum = sumData.idealRange;
     const sets = [];
     for (let s = 0; s < setsCount; s++) {
-      // Pick from top candidates with some randomization
-      const pool = scores.slice(0, 20);
-      const set = new Set();
-      while (set.size < 6) {
-        const idx = Math.floor(Math.random() * pool.length);
-        set.add(pool[idx].num);
+      const pool = scores.slice(0, 25 + s * 3);
+      let bestSet = null,
+        bestScore = -1;
+      // Try multiple random draws, keep the best
+      for (let attempt = 0; attempt < 100; attempt++) {
+        const set = new Set();
+        const shuffled = [...pool].sort(() => Math.random() - 0.5);
+        for (const p of shuffled) {
+          if (set.size >= 6) break;
+          set.add(p.num);
+        }
+        if (set.size < 6) continue;
+        const arr = [...set].sort((a, b) => a - b);
+        const sum = arr.reduce((s, n) => s + n, 0);
+        // Check sum range
+        if (sum < idealSum[0] - 20 || sum > idealSum[1] + 20) continue;
+        // Score: sum of individual scores + pair bonus
+        let score = 0;
+        for (const n of arr) {
+          const ns = scores.find((x) => x.num === n);
+          score += ns ? ns.score : 0;
+        }
+        for (let i = 0; i < arr.length; i++) {
+          for (let j = i + 1; j < arr.length; j++) {
+            const key = arr[i] + "-" + arr[j];
+            score += (pairData.pairCount[key] || 0) * 0.1;
+          }
+        }
+        if (score > bestScore) {
+          bestScore = score;
+          bestSet = arr;
+        }
       }
-      sets.push([...set].sort((a, b) => a - b));
+      if (bestSet) sets.push(bestSet);
+      else {
+        // Fallback
+        const set = new Set();
+        for (const p of pool) {
+          if (set.size >= 6) break;
+          set.add(p.num);
+        }
+        sets.push([...set].sort((a, b) => a - b));
+      }
     }
     return sets;
   },
