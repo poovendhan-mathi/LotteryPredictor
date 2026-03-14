@@ -1,565 +1,2830 @@
 {
   "lastUpdated": "2026-03-12",
-  "source": "Singapore Pools Historical Data",
+  "source": "Singapore Pools",
   "draws": [
     {
-      "drawNo": 4120,
+      "drawNo": 4164,
       "date": "2026-03-12",
-      "winning": [3, 11, 18, 27, 35, 44],
-      "additional": 22,
+      "winning": [
+        12,
+        25,
+        33,
+        40,
+        43,
+        46
+      ],
+      "additional": 21,
       "shares": [
-        { "group": 1, "prize": 1200000, "winners": 0 },
-        { "group": 2, "prize": 85000, "winners": 2 },
-        { "group": 3, "prize": 2500, "winners": 45 },
-        { "group": 4, "prize": 170, "winners": 890 },
-        { "group": 5, "prize": 50, "winners": 12500 },
-        { "group": 6, "prize": 25, "winners": 16800 }
+        {
+          "group": 1,
+          "prize": 3159706,
+          "winners": 2
+        },
+        {
+          "group": 2,
+          "prize": 187858,
+          "winners": 359
+        },
+        {
+          "group": 3,
+          "prize": 2051,
+          "winners": 9751
+        },
+        {
+          "group": 4,
+          "prize": 393,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4163,
+      "date": "2026-03-09",
+      "winning": [
+        7,
+        13,
+        14,
+        17,
+        40,
+        44
+      ],
+      "additional": 35,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 96496,
+          "winners": 131
+        },
+        {
+          "group": 2,
+          "prize": 1520,
+          "winners": 6292
+        },
+        {
+          "group": 3,
+          "prize": 384,
+          "winners": 113477
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4162,
+      "date": "2026-03-05",
+      "winning": [
+        1,
+        5,
+        12,
+        15,
+        22,
+        42
+      ],
+      "additional": 37,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 1591682,
+          "winners": 8
+        },
+        {
+          "group": 2,
+          "prize": 48834,
+          "winners": 469
+        },
+        {
+          "group": 3,
+          "prize": 768,
+          "winners": 10856
+        },
+        {
+          "group": 4,
+          "prize": 313,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4161,
+      "date": "2026-03-02",
+      "winning": [
+        6,
+        8,
+        28,
+        37,
+        41,
+        49
+      ],
+      "additional": 40,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 279517,
+          "winners": 124
+        },
+        {
+          "group": 2,
+          "prize": 1550,
+          "winners": 5908
+        },
+        {
+          "group": 3,
+          "prize": 387,
+          "winners": 111023
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4160,
+      "date": "2026-02-27",
+      "winning": [
+        5,
+        9,
+        20,
+        23,
+        45,
+        46
+      ],
+      "additional": 7,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 4000000,
+          "winners": 32
+        },
+        {
+          "group": 2,
+          "prize": 77132,
+          "winners": 3244
+        },
+        {
+          "group": 3,
+          "prize": 1566,
+          "winners": 86184
+        },
+        {
+          "group": 4,
+          "prize": 286,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4159,
+      "date": "2026-02-23",
+      "winning": [
+        24,
+        26,
+        30,
+        32,
+        37,
+        47
+      ],
+      "additional": 2,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 893718,
+          "winners": 2
+        },
+        {
+          "group": 2,
+          "prize": 188152,
+          "winners": 312
+        },
+        {
+          "group": 3,
+          "prize": 2562,
+          "winners": 9583
+        },
+        {
+          "group": 4,
+          "prize": 453,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4158,
+      "date": "2026-02-19",
+      "winning": [
+        8,
+        16,
+        17,
+        34,
+        38,
+        48
+      ],
+      "additional": 25,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 1474367,
+          "winners": 5
+        },
+        {
+          "group": 2,
+          "prize": 62079,
+          "winners": 301
+        },
+        {
+          "group": 3,
+          "prize": 1482,
+          "winners": 8379
+        },
+        {
+          "group": 4,
+          "prize": 387,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4157,
+      "date": "2026-02-16",
+      "winning": [
+        13,
+        24,
+        28,
+        34,
+        37,
+        44
+      ],
+      "additional": 29,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 1487895,
+          "winners": 3
+        },
+        {
+          "group": 2,
+          "prize": 104414,
+          "winners": 303
+        },
+        {
+          "group": 3,
+          "prize": 1766,
+          "winners": 8114
+        },
+        {
+          "group": 4,
+          "prize": 388,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4156,
+      "date": "2026-02-13",
+      "winning": [
+        10,
+        15,
+        25,
+        43,
+        45,
+        49
+      ],
+      "additional": 4,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 6188268,
+          "winners": 15
+        },
+        {
+          "group": 2,
+          "prize": 86853,
+          "winners": 1292
+        },
+        {
+          "group": 3,
+          "prize": 1795,
+          "winners": 35730
+        },
+        {
+          "group": 4,
+          "prize": 379,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4155,
+      "date": "2026-02-09",
+      "winning": [
+        10,
+        15,
+        29,
+        31,
+        33,
+        49
+      ],
+      "additional": 30,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 3263539,
+          "winners": 3
+        },
+        {
+          "group": 2,
+          "prize": 231713,
+          "winners": 660
+        },
+        {
+          "group": 3,
+          "prize": 1079,
+          "winners": 21400
+        },
+        {
+          "group": 4,
+          "prize": 395,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4154,
+      "date": "2026-02-05",
+      "winning": [
+        6,
+        18,
+        24,
+        26,
+        36,
+        48
+      ],
+      "additional": 5,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 200575,
+          "winners": 224
+        },
+        {
+          "group": 2,
+          "prize": 1232,
+          "winners": 9237
+        },
+        {
+          "group": 3,
+          "prize": 322,
+          "winners": 154628
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4153,
+      "date": "2026-02-02",
+      "winning": [
+        4,
+        19,
+        40,
+        41,
+        46,
+        47
+      ],
+      "additional": 20,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 69460,
+          "winners": 89
+        },
+        {
+          "group": 2,
+          "prize": 2147,
+          "winners": 5139
+        },
+        {
+          "group": 3,
+          "prize": 464,
+          "winners": 91256
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4152,
+      "date": "2026-01-29",
+      "winning": [
+        11,
+        13,
+        16,
+        31,
+        42,
+        48
+      ],
+      "additional": 21,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 2254062,
+          "winners": 13
+        },
+        {
+          "group": 2,
+          "prize": 123040,
+          "winners": 1592
+        },
+        {
+          "group": 3,
+          "prize": 1716,
+          "winners": 44984
+        },
+        {
+          "group": 4,
+          "prize": 377,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4151,
+      "date": "2026-01-26",
+      "winning": [
+        10,
+        11,
+        13,
+        26,
+        32,
+        39
+      ],
+      "additional": 44,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 56742,
+          "winners": 278
+        },
+        {
+          "group": 2,
+          "prize": 1544,
+          "winners": 14163
+        },
+        {
+          "group": 3,
+          "prize": 380,
+          "winners": 259857
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4150,
+      "date": "2026-01-22",
+      "winning": [
+        6,
+        22,
+        27,
+        32,
+        37,
+        44
+      ],
+      "additional": 19,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 71065,
+          "winners": 166
+        },
+        {
+          "group": 2,
+          "prize": 1472,
+          "winners": 7378
+        },
+        {
+          "group": 3,
+          "prize": 324,
+          "winners": 131725
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4149,
+      "date": "2026-01-19",
+      "winning": [
+        4,
+        11,
+        21,
+        23,
+        31,
+        35
+      ],
+      "additional": 48,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 67060,
+          "winners": 106
+        },
+        {
+          "group": 2,
+          "prize": 1740,
+          "winners": 6086
+        },
+        {
+          "group": 3,
+          "prize": 430,
+          "winners": 111119
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4148,
+      "date": "2026-01-15",
+      "winning": [
+        16,
+        32,
+        34,
+        35,
+        36,
+        41
+      ],
+      "additional": 14,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 1250153,
+          "winners": 3
+        },
+        {
+          "group": 2,
+          "prize": 87731,
+          "winners": 233
+        },
+        {
+          "group": 3,
+          "prize": 2034,
+          "winners": 6400
+        },
+        {
+          "group": 4,
+          "prize": 424,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4147,
+      "date": "2026-01-12",
+      "winning": [
+        1,
+        9,
+        16,
+        18,
+        35,
+        43
+      ],
+      "additional": 12,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 645912,
+          "winners": 2
+        },
+        {
+          "group": 2,
+          "prize": 135982,
+          "winners": 362
+        },
+        {
+          "group": 3,
+          "prize": 2253,
+          "winners": 10992
+        },
+        {
+          "group": 4,
+          "prize": 282,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4146,
+      "date": "2026-01-08",
+      "winning": [
+        3,
+        14,
+        15,
+        17,
+        25,
+        27
+      ],
+      "additional": 31,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 2923900,
+          "winners": 8
+        },
+        {
+          "group": 2,
+          "prize": 45197,
+          "winners": 471
+        },
+        {
+          "group": 3,
+          "prize": 1498,
+          "winners": 11383
+        },
+        {
+          "group": 4,
+          "prize": 288,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4145,
+      "date": "2026-01-05",
+      "winning": [
+        5,
+        20,
+        35,
+        39,
+        40,
+        49
+      ],
+      "additional": 27,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 253986,
+          "winners": 66
+        },
+        {
+          "group": 2,
+          "prize": 2646,
+          "winners": 4567
+        },
+        {
+          "group": 3,
+          "prize": 551,
+          "winners": 86036
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4144,
+      "date": "2026-01-02",
+      "winning": [
+        11,
+        18,
+        20,
+        32,
+        38,
+        39
+      ],
+      "additional": 34,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 2653368,
+          "winners": 17
+        },
+        {
+          "group": 2,
+          "prize": 98578,
+          "winners": 1471
+        },
+        {
+          "group": 3,
+          "prize": 1337,
+          "winners": 39692
+        },
+        {
+          "group": 4,
+          "prize": 356,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4143,
+      "date": "2025-12-29",
+      "winning": [
+        2,
+        4,
+        22,
+        24,
+        30,
+        33
+      ],
+      "additional": 49,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 1403,
+          "winners": 202
+        },
+        {
+          "group": 2,
+          "prize": 523,
+          "winners": 6472
+        },
+        {
+          "group": 3,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 4,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4142,
+      "date": "2025-12-25",
+      "winning": [
+        3,
+        8,
+        15,
+        28,
+        37,
+        43
+      ],
+      "additional": 49,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 5573082,
+          "winners": 7
+        },
+        {
+          "group": 2,
+          "prize": 79770,
+          "winners": 554
+        },
+        {
+          "group": 3,
+          "prize": 1455,
+          "winners": 15282
+        },
+        {
+          "group": 4,
+          "prize": 378,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4141,
+      "date": "2025-12-22",
+      "winning": [
+        4,
+        5,
+        13,
+        22,
+        24,
+        30
+      ],
+      "additional": 36,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 358749,
+          "winners": 201
+        },
+        {
+          "group": 2,
+          "prize": 1228,
+          "winners": 9193
+        },
+        {
+          "group": 3,
+          "prize": 421,
+          "winners": 161082
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4140,
+      "date": "2025-12-18",
+      "winning": [
+        2,
+        14,
+        15,
+        30,
+        31,
+        43
+      ],
+      "additional": 27,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 128074,
+          "winners": 65
+        },
+        {
+          "group": 2,
+          "prize": 2710,
+          "winners": 4577
+        },
+        {
+          "group": 3,
+          "prize": 460,
+          "winners": 89975
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4139,
+      "date": "2025-12-15",
+      "winning": [
+        17,
+        21,
+        22,
+        35,
+        37,
+        42
+      ],
+      "additional": 9,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 1231419,
+          "winners": 3
+        },
+        {
+          "group": 2,
+          "prize": 86416,
+          "winners": 213
+        },
+        {
+          "group": 3,
+          "prize": 2003,
+          "winners": 6908
+        },
+        {
+          "group": 4,
+          "prize": 457,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4138,
+      "date": "2025-12-11",
+      "winning": [
+        6,
+        11,
+        20,
+        28,
+        33,
+        43
+      ],
+      "additional": 16,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 2933089,
+          "winners": 4
+        },
+        {
+          "group": 2,
+          "prize": 88211,
+          "winners": 490
+        },
+        {
+          "group": 3,
+          "prize": 1824,
+          "winners": 11754
+        },
+        {
+          "group": 4,
+          "prize": 271,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4137,
+      "date": "2025-12-08",
+      "winning": [
+        9,
+        12,
+        15,
+        23,
+        27,
+        47
+      ],
+      "additional": 45,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 88217,
+          "winners": 138
+        },
+        {
+          "group": 2,
+          "prize": 1319,
+          "winners": 7717
+        },
+        {
+          "group": 3,
+          "prize": 379,
+          "winners": 131194
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4136,
+      "date": "2025-12-04",
+      "winning": [
+        1,
+        5,
+        24,
+        36,
+        41,
+        46
+      ],
+      "additional": 39,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 2911458,
+          "winners": 2
+        },
+        {
+          "group": 2,
+          "prize": 175916,
+          "winners": 265
+        },
+        {
+          "group": 3,
+          "prize": 2000,
+          "winners": 7747
+        },
+        {
+          "group": 4,
+          "prize": 498,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4135,
+      "date": "2025-12-01",
+      "winning": [
+        2,
+        10,
+        24,
+        35,
+        45,
+        49
+      ],
+      "additional": 37,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 261108,
+          "winners": 84
+        },
+        {
+          "group": 2,
+          "prize": 2138,
+          "winners": 5030
+        },
+        {
+          "group": 3,
+          "prize": 444,
+          "winners": 92173
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4134,
+      "date": "2025-11-27",
+      "winning": [
+        6,
+        8,
+        17,
+        28,
+        32,
+        46
+      ],
+      "additional": 16,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 2867460,
+          "winners": 2
+        },
+        {
+          "group": 2,
+          "prize": 171078,
+          "winners": 365
+        },
+        {
+          "group": 3,
+          "prize": 1657,
+          "winners": 11449
+        },
+        {
+          "group": 4,
+          "prize": 352,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4133,
+      "date": "2025-11-24",
+      "winning": [
+        8,
+        25,
+        27,
+        34,
+        45,
+        47
+      ],
+      "additional": 19,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 130761,
+          "winners": 76
+        },
+        {
+          "group": 2,
+          "prize": 2366,
+          "winners": 4681
+        },
+        {
+          "group": 3,
+          "prize": 368,
+          "winners": 89557
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4132,
+      "date": "2025-11-20",
+      "winning": [
+        11,
+        13,
+        22,
+        31,
+        47,
+        49
+      ],
+      "additional": 39,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 1496662,
+          "winners": 2
+        },
+        {
+          "group": 2,
+          "prize": 181882,
+          "winners": 316
+        },
+        {
+          "group": 3,
+          "prize": 2017,
+          "winners": 9182
+        },
+        {
+          "group": 4,
+          "prize": 432,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4131,
+      "date": "2025-11-17",
+      "winning": [
+        3,
+        9,
+        12,
+        18,
+        19,
+        34
+      ],
+      "additional": 24,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 66603,
+          "winners": 170
+        },
+        {
+          "group": 2,
+          "prize": 1078,
+          "winners": 9291
+        },
+        {
+          "group": 3,
+          "prize": 202,
+          "winners": 143566
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4130,
+      "date": "2025-11-13",
+      "winning": [
+        6,
+        13,
+        18,
+        22,
+        34,
+        35
+      ],
+      "additional": 40,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 3039287,
+          "winners": 4
+        },
+        {
+          "group": 2,
+          "prize": 92324,
+          "winners": 356
+        },
+        {
+          "group": 3,
+          "prize": 1776,
+          "winners": 9816
+        },
+        {
+          "group": 4,
+          "prize": 389,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4129,
+      "date": "2025-11-10",
+      "winning": [
+        2,
+        11,
+        12,
+        19,
+        25,
+        36
+      ],
+      "additional": 16,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 67639,
+          "winners": 159
+        },
+        {
+          "group": 2,
+          "prize": 1170,
+          "winners": 8778
+        },
+        {
+          "group": 3,
+          "prize": 241,
+          "winners": 140314
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4128,
+      "date": "2025-11-06",
+      "winning": [
+        3,
+        20,
+        24,
+        29,
+        32,
+        44
+      ],
+      "additional": 46,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 12286496,
+          "winners": 11
+        },
+        {
+          "group": 2,
+          "prize": 123444,
+          "winners": 1224
+        },
+        {
+          "group": 3,
+          "prize": 1569,
+          "winners": 33956
+        },
+        {
+          "group": 4,
+          "prize": 417,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4127,
+      "date": "2025-11-03",
+      "winning": [
+        10,
+        19,
+        22,
+        34,
+        39,
+        43
+      ],
+      "additional": 35,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 67235,
+          "winners": 269
+        },
+        {
+          "group": 2,
+          "prize": 1547,
+          "winners": 13781
+        },
+        {
+          "group": 3,
+          "prize": 317,
+          "winners": 232947
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4126,
+      "date": "2025-10-30",
+      "winning": [
+        1,
+        5,
+        31,
+        34,
+        38,
+        45
+      ],
+      "additional": 21,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 360231,
+          "winners": 126
+        },
+        {
+          "group": 2,
+          "prize": 1966,
+          "winners": 6630
+        },
+        {
+          "group": 3,
+          "prize": 468,
+          "winners": 133250
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4125,
+      "date": "2025-10-27",
+      "winning": [
+        4,
+        12,
+        14,
+        24,
+        36,
+        38
+      ],
+      "additional": 17,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 131706,
+          "winners": 102
+        },
+        {
+          "group": 2,
+          "prize": 1776,
+          "winners": 5325
+        },
+        {
+          "group": 3,
+          "prize": 482,
+          "winners": 99766
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4124,
+      "date": "2025-10-23",
+      "winning": [
+        7,
+        14,
+        17,
+        18,
+        31,
+        38
+      ],
+      "additional": 46,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 4142563,
+          "winners": 10
+        },
+        {
+          "group": 2,
+          "prize": 139191,
+          "winners": 1525
+        },
+        {
+          "group": 3,
+          "prize": 1567,
+          "winners": 37588
+        },
+        {
+          "group": 4,
+          "prize": 343,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4123,
+      "date": "2025-10-20",
+      "winning": [
+        3,
+        10,
+        13,
+        15,
+        32,
+        37
+      ],
+      "additional": 8,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 58728,
+          "winners": 239
+        },
+        {
+          "group": 2,
+          "prize": 1690,
+          "winners": 13012
+        },
+        {
+          "group": 3,
+          "prize": 312,
+          "winners": 239985
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4122,
+      "date": "2025-10-16",
+      "winning": [
+        2,
+        4,
+        8,
+        19,
+        35,
+        39
+      ],
+      "additional": 7,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 90466,
+          "winners": 147
+        },
+        {
+          "group": 2,
+          "prize": 1693,
+          "winners": 8453
+        },
+        {
+          "group": 3,
+          "prize": 275,
+          "winners": 152801
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4121,
+      "date": "2025-10-13",
+      "winning": [
+        5,
+        31,
+        33,
+        34,
+        38,
+        46
+      ],
+      "additional": 39,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 275308,
+          "winners": 76
+        },
+        {
+          "group": 2,
+          "prize": 2491,
+          "winners": 4664
+        },
+        {
+          "group": 3,
+          "prize": 405,
+          "winners": 92563
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
+      ]
+    },
+    {
+      "drawNo": 4120,
+      "date": "2025-10-09",
+      "winning": [
+        13,
+        14,
+        19,
+        22,
+        31,
+        42
+      ],
+      "additional": 41,
+      "shares": [
+        {
+          "group": 1,
+          "prize": 5979660,
+          "winners": 4
+        },
+        {
+          "group": 2,
+          "prize": 150222,
+          "winners": 631
+        },
+        {
+          "group": 3,
+          "prize": 1804,
+          "winners": 16702
+        },
+        {
+          "group": 4,
+          "prize": 358,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4119,
-      "date": "2026-03-09",
-      "winning": [7, 14, 23, 31, 38, 46],
-      "additional": 9,
+      "date": "2025-10-06",
+      "winning": [
+        10,
+        15,
+        22,
+        31,
+        42,
+        48
+      ],
+      "additional": 4,
       "shares": [
-        { "group": 1, "prize": 1000000, "winners": 1 },
-        { "group": 2, "prize": 72000, "winners": 3 },
-        { "group": 3, "prize": 2100, "winners": 52 },
-        { "group": 4, "prize": 155, "winners": 920 },
-        { "group": 5, "prize": 50, "winners": 13200 },
-        { "group": 6, "prize": 25, "winners": 17100 }
+        {
+          "group": 1,
+          "prize": 79158,
+          "winners": 106
+        },
+        {
+          "group": 2,
+          "prize": 2568,
+          "winners": 7877
+        },
+        {
+          "group": 3,
+          "prize": 341,
+          "winners": 149923
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4118,
-      "date": "2026-03-05",
-      "winning": [2, 16, 24, 33, 41, 49],
-      "additional": 12,
+      "date": "2025-10-02",
+      "winning": [
+        19,
+        22,
+        26,
+        37,
+        40,
+        46
+      ],
+      "additional": 14,
       "shares": [
-        { "group": 1, "prize": 800000, "winners": 0 },
-        { "group": 2, "prize": 65000, "winners": 1 },
-        { "group": 3, "prize": 1800, "winners": 38 },
-        { "group": 4, "prize": 145, "winners": 780 },
-        { "group": 5, "prize": 50, "winners": 11800 },
-        { "group": 6, "prize": 25, "winners": 15600 }
+        {
+          "group": 1,
+          "prize": 87402,
+          "winners": 67
+        },
+        {
+          "group": 2,
+          "prize": 2691,
+          "winners": 4720
+        },
+        {
+          "group": 3,
+          "prize": 436,
+          "winners": 84535
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4117,
-      "date": "2026-03-02",
-      "winning": [5, 12, 19, 28, 36, 43],
-      "additional": 17,
+      "date": "2025-09-29",
+      "winning": [
+        15,
+        16,
+        22,
+        34,
+        35,
+        43
+      ],
+      "additional": 26,
       "shares": [
-        { "group": 1, "prize": 600000, "winners": 0 },
-        { "group": 2, "prize": 58000, "winners": 2 },
-        { "group": 3, "prize": 1500, "winners": 41 },
-        { "group": 4, "prize": 130, "winners": 850 },
-        { "group": 5, "prize": 50, "winners": 12200 },
-        { "group": 6, "prize": 25, "winners": 16200 }
+        {
+          "group": 1,
+          "prize": 6145776,
+          "winners": 12
+        },
+        {
+          "group": 2,
+          "prize": 116415,
+          "winners": 1271
+        },
+        {
+          "group": 3,
+          "prize": 1607,
+          "winners": 38354
+        },
+        {
+          "group": 4,
+          "prize": 413,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4116,
-      "date": "2026-02-26",
-      "winning": [1, 9, 21, 30, 39, 47],
-      "additional": 15,
+      "date": "2025-09-25",
+      "winning": [
+        1,
+        6,
+        9,
+        11,
+        29,
+        36
+      ],
+      "additional": 12,
       "shares": [
-        { "group": 1, "prize": 500000, "winners": 1 },
-        { "group": 2, "prize": 48000, "winners": 4 },
-        { "group": 3, "prize": 1200, "winners": 35 },
-        { "group": 4, "prize": 120, "winners": 760 },
-        { "group": 5, "prize": 50, "winners": 11500 },
-        { "group": 6, "prize": 25, "winners": 15200 }
+        {
+          "group": 1,
+          "prize": 24231,
+          "winners": 335
+        },
+        {
+          "group": 2,
+          "prize": 1144,
+          "winners": 18652
+        },
+        {
+          "group": 3,
+          "prize": 182,
+          "winners": 284723
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4115,
-      "date": "2026-02-23",
-      "winning": [8, 15, 22, 34, 40, 48],
-      "additional": 6,
+      "date": "2025-09-22",
+      "winning": [
+        8,
+        15,
+        22,
+        24,
+        43,
+        47
+      ],
+      "additional": 44,
       "shares": [
-        { "group": 1, "prize": 1500000, "winners": 0 },
-        { "group": 2, "prize": 92000, "winners": 1 },
-        { "group": 3, "prize": 2800, "winners": 48 },
-        { "group": 4, "prize": 175, "winners": 900 },
-        { "group": 5, "prize": 50, "winners": 13000 },
-        { "group": 6, "prize": 25, "winners": 17400 }
+        {
+          "group": 1,
+          "prize": 142474,
+          "winners": 128
+        },
+        {
+          "group": 2,
+          "prize": 2005,
+          "winners": 7570
+        },
+        {
+          "group": 3,
+          "prize": 392,
+          "winners": 145140
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4114,
-      "date": "2026-02-19",
-      "winning": [4, 13, 25, 32, 42, 45],
-      "additional": 19,
+      "date": "2025-09-18",
+      "winning": [
+        6,
+        8,
+        9,
+        20,
+        45,
+        49
+      ],
+      "additional": 21,
       "shares": [
-        { "group": 1, "prize": 900000, "winners": 1 },
-        { "group": 2, "prize": 68000, "winners": 2 },
-        { "group": 3, "prize": 2000, "winners": 43 },
-        { "group": 4, "prize": 150, "winners": 840 },
-        { "group": 5, "prize": 50, "winners": 12400 },
-        { "group": 6, "prize": 25, "winners": 16500 }
+        {
+          "group": 1,
+          "prize": 1193,
+          "winners": 330
+        },
+        {
+          "group": 2,
+          "prize": 296,
+          "winners": 9679
+        },
+        {
+          "group": 3,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 4,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4113,
-      "date": "2026-02-16",
-      "winning": [6, 10, 20, 29, 37, 46],
-      "additional": 3,
+      "date": "2025-09-15",
+      "winning": [
+        10,
+        19,
+        25,
+        29,
+        33,
+        37
+      ],
+      "additional": 24,
       "shares": [
-        { "group": 1, "prize": 700000, "winners": 0 },
-        { "group": 2, "prize": 55000, "winners": 3 },
-        { "group": 3, "prize": 1700, "winners": 39 },
-        { "group": 4, "prize": 140, "winners": 800 },
-        { "group": 5, "prize": 50, "winners": 11900 },
-        { "group": 6, "prize": 25, "winners": 15800 }
+        {
+          "group": 1,
+          "prize": 2956471,
+          "winners": 129
+        },
+        {
+          "group": 2,
+          "prize": 1940,
+          "winners": 7473
+        },
+        {
+          "group": 3,
+          "prize": 407,
+          "winners": 141348
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4112,
-      "date": "2026-02-12",
-      "winning": [11, 17, 26, 33, 38, 44],
-      "additional": 8,
+      "date": "2025-09-11",
+      "winning": [
+        2,
+        15,
+        19,
+        35,
+        41,
+        48
+      ],
+      "additional": 33,
       "shares": [
-        { "group": 1, "prize": 1100000, "winners": 1 },
-        { "group": 2, "prize": 78000, "winners": 2 },
-        { "group": 3, "prize": 2300, "winners": 46 },
-        { "group": 4, "prize": 165, "winners": 870 },
-        { "group": 5, "prize": 50, "winners": 12800 },
-        { "group": 6, "prize": 25, "winners": 16900 }
+        {
+          "group": 1,
+          "prize": 129261,
+          "winners": 91
+        },
+        {
+          "group": 2,
+          "prize": 1954,
+          "winners": 4742
+        },
+        {
+          "group": 3,
+          "prize": 443,
+          "winners": 90586
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4111,
-      "date": "2026-02-09",
-      "winning": [3, 14, 21, 35, 41, 49],
-      "additional": 27,
+      "date": "2025-09-08",
+      "winning": [
+        1,
+        3,
+        33,
+        38,
+        39,
+        42
+      ],
+      "additional": 31,
       "shares": [
-        { "group": 1, "prize": 400000, "winners": 0 },
-        { "group": 2, "prize": 42000, "winners": 1 },
-        { "group": 3, "prize": 1100, "winners": 33 },
-        { "group": 4, "prize": 110, "winners": 720 },
-        { "group": 5, "prize": 50, "winners": 11200 },
-        { "group": 6, "prize": 25, "winners": 14800 }
+        {
+          "group": 1,
+          "prize": 1306245,
+          "winners": 2
+        },
+        {
+          "group": 2,
+          "prize": 137500,
+          "winners": 291
+        },
+        {
+          "group": 3,
+          "prize": 1767,
+          "winners": 8387
+        },
+        {
+          "group": 4,
+          "prize": 355,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4110,
-      "date": "2026-02-05",
-      "winning": [2, 8, 18, 24, 36, 43],
-      "additional": 31,
+      "date": "2025-09-04",
+      "winning": [
+        8,
+        12,
+        21,
+        38,
+        40,
+        43
+      ],
+      "additional": 25,
       "shares": [
-        { "group": 1, "prize": 300000, "winners": 1 },
-        { "group": 2, "prize": 35000, "winners": 2 },
-        { "group": 3, "prize": 950, "winners": 28 },
-        { "group": 4, "prize": 100, "winners": 690 },
-        { "group": 5, "prize": 50, "winners": 10800 },
-        { "group": 6, "prize": 25, "winners": 14300 }
+        {
+          "group": 1,
+          "prize": 3074781,
+          "winners": 2
+        },
+        {
+          "group": 2,
+          "prize": 191022,
+          "winners": 346
+        },
+        {
+          "group": 3,
+          "prize": 1476,
+          "winners": 10901
+        },
+        {
+          "group": 4,
+          "prize": 415,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4109,
-      "date": "2026-02-02",
-      "winning": [5, 16, 23, 30, 39, 47],
-      "additional": 11,
+      "date": "2025-09-01",
+      "winning": [
+        3,
+        4,
+        8,
+        13,
+        14,
+        17
+      ],
+      "additional": 20,
       "shares": [
-        { "group": 1, "prize": 1800000, "winners": 0 },
-        { "group": 2, "prize": 98000, "winners": 1 },
-        { "group": 3, "prize": 3000, "winners": 50 },
-        { "group": 4, "prize": 180, "winners": 910 },
-        { "group": 5, "prize": 50, "winners": 13400 },
-        { "group": 6, "prize": 25, "winners": 17600 }
+        {
+          "group": 1,
+          "prize": 44214,
+          "winners": 245
+        },
+        {
+          "group": 2,
+          "prize": 745,
+          "winners": 9103
+        },
+        {
+          "group": 3,
+          "prize": 234,
+          "winners": 142655
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4108,
-      "date": "2026-01-29",
-      "winning": [9, 13, 19, 28, 34, 45],
-      "additional": 40,
+      "date": "2025-08-28",
+      "winning": [
+        10,
+        11,
+        16,
+        24,
+        34,
+        35
+      ],
+      "additional": 1,
       "shares": [
-        { "group": 1, "prize": 750000, "winners": 1 },
-        { "group": 2, "prize": 60000, "winners": 2 },
-        { "group": 3, "prize": 1900, "winners": 42 },
-        { "group": 4, "prize": 148, "winners": 820 },
-        { "group": 5, "prize": 50, "winners": 12100 },
-        { "group": 6, "prize": 25, "winners": 16000 }
+        {
+          "group": 1,
+          "prize": 4176062,
+          "winners": 18
+        },
+        {
+          "group": 2,
+          "prize": 78549,
+          "winners": 1505
+        },
+        {
+          "group": 3,
+          "prize": 1709,
+          "winners": 43639
+        },
+        {
+          "group": 4,
+          "prize": 353,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 7,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4107,
-      "date": "2026-01-26",
-      "winning": [1, 7, 22, 31, 42, 48],
-      "additional": 16,
+      "date": "2025-08-25",
+      "winning": [
+        2,
+        3,
+        4,
+        16,
+        22,
+        39
+      ],
+      "additional": 48,
       "shares": [
-        { "group": 1, "prize": 550000, "winners": 0 },
-        { "group": 2, "prize": 50000, "winners": 3 },
-        { "group": 3, "prize": 1400, "winners": 37 },
-        { "group": 4, "prize": 128, "winners": 770 },
-        { "group": 5, "prize": 50, "winners": 11600 },
-        { "group": 6, "prize": 25, "winners": 15400 }
+        {
+          "group": 1,
+          "prize": 119475,
+          "winners": 222
+        },
+        {
+          "group": 2,
+          "prize": 1850,
+          "winners": 13271
+        },
+        {
+          "group": 3,
+          "prize": 395,
+          "winners": 248292
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4106,
-      "date": "2026-01-22",
-      "winning": [4, 10, 25, 33, 37, 46],
-      "additional": 20,
+      "date": "2025-08-21",
+      "winning": [
+        4,
+        13,
+        22,
+        36,
+        38,
+        46
+      ],
+      "additional": 12,
       "shares": [
-        { "group": 1, "prize": 450000, "winners": 1 },
-        { "group": 2, "prize": 45000, "winners": 2 },
-        { "group": 3, "prize": 1300, "winners": 36 },
-        { "group": 4, "prize": 122, "winners": 750 },
-        { "group": 5, "prize": 50, "winners": 11400 },
-        { "group": 6, "prize": 25, "winners": 15000 }
+        {
+          "group": 1,
+          "prize": 361228,
+          "winners": 128
+        },
+        {
+          "group": 2,
+          "prize": 1941,
+          "winners": 6532
+        },
+        {
+          "group": 3,
+          "prize": 392,
+          "winners": 125956
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     },
     {
       "drawNo": 4105,
-      "date": "2026-01-19",
-      "winning": [6, 15, 20, 29, 38, 44],
-      "additional": 35,
+      "date": "2025-08-18",
+      "winning": [
+        1,
+        4,
+        18,
+        24,
+        37,
+        42
+      ],
+      "additional": 26,
       "shares": [
-        { "group": 1, "prize": 350000, "winners": 0 },
-        { "group": 2, "prize": 38000, "winners": 1 },
-        { "group": 3, "prize": 1050, "winners": 30 },
-        { "group": 4, "prize": 105, "winners": 700 },
-        { "group": 5, "prize": 50, "winners": 10900 },
-        { "group": 6, "prize": 25, "winners": 14500 }
-      ]
-    },
-    {
-      "drawNo": 4104,
-      "date": "2026-01-15",
-      "winning": [12, 17, 26, 32, 40, 49],
-      "additional": 5,
-      "shares": [
-        { "group": 1, "prize": 2000000, "winners": 1 },
-        { "group": 2, "prize": 105000, "winners": 2 },
-        { "group": 3, "prize": 3200, "winners": 53 },
-        { "group": 4, "prize": 185, "winners": 930 },
-        { "group": 5, "prize": 50, "winners": 13500 },
-        { "group": 6, "prize": 25, "winners": 17800 }
-      ]
-    },
-    {
-      "drawNo": 4103,
-      "date": "2026-01-12",
-      "winning": [3, 11, 24, 36, 41, 47],
-      "additional": 18,
-      "shares": [
-        { "group": 1, "prize": 650000, "winners": 0 },
-        { "group": 2, "prize": 52000, "winners": 2 },
-        { "group": 3, "prize": 1600, "winners": 40 },
-        { "group": 4, "prize": 135, "winners": 790 },
-        { "group": 5, "prize": 50, "winners": 11800 },
-        { "group": 6, "prize": 25, "winners": 15700 }
-      ]
-    },
-    {
-      "drawNo": 4102,
-      "date": "2026-01-08",
-      "winning": [8, 14, 21, 27, 35, 43],
-      "additional": 39,
-      "shares": [
-        { "group": 1, "prize": 500000, "winners": 1 },
-        { "group": 2, "prize": 46000, "winners": 3 },
-        { "group": 3, "prize": 1350, "winners": 36 },
-        { "group": 4, "prize": 125, "winners": 760 },
-        { "group": 5, "prize": 50, "winners": 11500 },
-        { "group": 6, "prize": 25, "winners": 15300 }
-      ]
-    },
-    {
-      "drawNo": 4101,
-      "date": "2026-01-05",
-      "winning": [2, 9, 19, 30, 38, 45],
-      "additional": 42,
-      "shares": [
-        { "group": 1, "prize": 850000, "winners": 0 },
-        { "group": 2, "prize": 63000, "winners": 1 },
-        { "group": 3, "prize": 1850, "winners": 44 },
-        { "group": 4, "prize": 152, "winners": 830 },
-        { "group": 5, "prize": 50, "winners": 12300 },
-        { "group": 6, "prize": 25, "winners": 16300 }
-      ]
-    },
-    {
-      "drawNo": 4100,
-      "date": "2026-01-01",
-      "winning": [7, 16, 23, 34, 42, 48],
-      "additional": 10,
-      "shares": [
-        { "group": 1, "prize": 1300000, "winners": 1 },
-        { "group": 2, "prize": 82000, "winners": 2 },
-        { "group": 3, "prize": 2400, "winners": 47 },
-        { "group": 4, "prize": 168, "winners": 880 },
-        { "group": 5, "prize": 50, "winners": 12900 },
-        { "group": 6, "prize": 25, "winners": 17000 }
-      ]
-    },
-    {
-      "drawNo": 4099,
-      "date": "2025-12-29",
-      "winning": [1, 13, 18, 25, 37, 46],
-      "additional": 33,
-      "shares": [
-        { "group": 1, "prize": 420000, "winners": 0 },
-        { "group": 2, "prize": 43000, "winners": 2 },
-        { "group": 3, "prize": 1150, "winners": 34 },
-        { "group": 4, "prize": 112, "winners": 730 },
-        { "group": 5, "prize": 50, "winners": 11300 },
-        { "group": 6, "prize": 25, "winners": 14900 }
-      ]
-    },
-    {
-      "drawNo": 4098,
-      "date": "2025-12-25",
-      "winning": [5, 10, 22, 29, 40, 44],
-      "additional": 36,
-      "shares": [
-        { "group": 1, "prize": 950000, "winners": 1 },
-        { "group": 2, "prize": 70000, "winners": 1 },
-        { "group": 3, "prize": 2050, "winners": 44 },
-        { "group": 4, "prize": 155, "winners": 845 },
-        { "group": 5, "prize": 50, "winners": 12500 },
-        { "group": 6, "prize": 25, "winners": 16600 }
-      ]
-    },
-    {
-      "drawNo": 4097,
-      "date": "2025-12-22",
-      "winning": [4, 11, 20, 31, 39, 49],
-      "additional": 14,
-      "shares": [
-        { "group": 1, "prize": 380000, "winners": 0 },
-        { "group": 2, "prize": 40000, "winners": 1 },
-        { "group": 3, "prize": 1050, "winners": 31 },
-        { "group": 4, "prize": 108, "winners": 710 },
-        { "group": 5, "prize": 50, "winners": 11100 },
-        { "group": 6, "prize": 25, "winners": 14600 }
-      ]
-    },
-    {
-      "drawNo": 4096,
-      "date": "2025-12-18",
-      "winning": [6, 15, 26, 33, 41, 47],
-      "additional": 8,
-      "shares": [
-        { "group": 1, "prize": 1600000, "winners": 0 },
-        { "group": 2, "prize": 95000, "winners": 2 },
-        { "group": 3, "prize": 2900, "winners": 49 },
-        { "group": 4, "prize": 178, "winners": 905 },
-        { "group": 5, "prize": 50, "winners": 13300 },
-        { "group": 6, "prize": 25, "winners": 17500 }
-      ]
-    },
-    {
-      "drawNo": 4095,
-      "date": "2025-12-15",
-      "winning": [3, 9, 17, 28, 35, 43],
-      "additional": 21,
-      "shares": [
-        { "group": 1, "prize": 700000, "winners": 1 },
-        { "group": 2, "prize": 57000, "winners": 2 },
-        { "group": 3, "prize": 1750, "winners": 41 },
-        { "group": 4, "prize": 142, "winners": 810 },
-        { "group": 5, "prize": 50, "winners": 12000 },
-        { "group": 6, "prize": 25, "winners": 15900 }
-      ]
-    },
-    {
-      "drawNo": 4094,
-      "date": "2025-12-11",
-      "winning": [2, 12, 24, 32, 38, 46],
-      "additional": 44,
-      "shares": [
-        { "group": 1, "prize": 480000, "winners": 0 },
-        { "group": 2, "prize": 47000, "winners": 1 },
-        { "group": 3, "prize": 1250, "winners": 35 },
-        { "group": 4, "prize": 118, "winners": 740 },
-        { "group": 5, "prize": 50, "winners": 11400 },
-        { "group": 6, "prize": 25, "winners": 15100 }
-      ]
-    },
-    {
-      "drawNo": 4093,
-      "date": "2025-12-08",
-      "winning": [7, 14, 19, 27, 36, 48],
-      "additional": 41,
-      "shares": [
-        { "group": 1, "prize": 1050000, "winners": 1 },
-        { "group": 2, "prize": 75000, "winners": 2 },
-        { "group": 3, "prize": 2200, "winners": 45 },
-        { "group": 4, "prize": 162, "winners": 860 },
-        { "group": 5, "prize": 50, "winners": 12700 },
-        { "group": 6, "prize": 25, "winners": 16800 }
-      ]
-    },
-    {
-      "drawNo": 4092,
-      "date": "2025-12-04",
-      "winning": [1, 8, 16, 25, 34, 45],
-      "additional": 30,
-      "shares": [
-        { "group": 1, "prize": 580000, "winners": 0 },
-        { "group": 2, "prize": 51000, "winners": 3 },
-        { "group": 3, "prize": 1550, "winners": 38 },
-        { "group": 4, "prize": 132, "winners": 780 },
-        { "group": 5, "prize": 50, "winners": 11700 },
-        { "group": 6, "prize": 25, "winners": 15500 }
-      ]
-    },
-    {
-      "drawNo": 4091,
-      "date": "2025-12-01",
-      "winning": [5, 13, 22, 30, 40, 47],
-      "additional": 17,
-      "shares": [
-        { "group": 1, "prize": 430000, "winners": 1 },
-        { "group": 2, "prize": 44000, "winners": 2 },
-        { "group": 3, "prize": 1200, "winners": 34 },
-        { "group": 4, "prize": 115, "winners": 730 },
-        { "group": 5, "prize": 50, "winners": 11200 },
-        { "group": 6, "prize": 25, "winners": 14800 }
-      ]
-    },
-    {
-      "drawNo": 4090,
-      "date": "2025-11-27",
-      "winning": [10, 18, 23, 31, 39, 44],
-      "additional": 49,
-      "shares": [
-        { "group": 1, "prize": 1400000, "winners": 0 },
-        { "group": 2, "prize": 88000, "winners": 1 },
-        { "group": 3, "prize": 2600, "winners": 48 },
-        { "group": 4, "prize": 172, "winners": 890 },
-        { "group": 5, "prize": 50, "winners": 13100 },
-        { "group": 6, "prize": 25, "winners": 17200 }
-      ]
-    },
-    {
-      "drawNo": 4089,
-      "date": "2025-11-24",
-      "winning": [4, 9, 21, 29, 37, 46],
-      "additional": 15,
-      "shares": [
-        { "group": 1, "prize": 620000, "winners": 1 },
-        { "group": 2, "prize": 54000, "winners": 2 },
-        { "group": 3, "prize": 1650, "winners": 40 },
-        { "group": 4, "prize": 138, "winners": 800 },
-        { "group": 5, "prize": 50, "winners": 11900 },
-        { "group": 6, "prize": 25, "winners": 15800 }
-      ]
-    },
-    {
-      "drawNo": 4088,
-      "date": "2025-11-20",
-      "winning": [6, 11, 20, 26, 35, 42],
-      "additional": 38,
-      "shares": [
-        { "group": 1, "prize": 360000, "winners": 0 },
-        { "group": 2, "prize": 39000, "winners": 1 },
-        { "group": 3, "prize": 1000, "winners": 30 },
-        { "group": 4, "prize": 105, "winners": 700 },
-        { "group": 5, "prize": 50, "winners": 10900 },
-        { "group": 6, "prize": 25, "winners": 14500 }
-      ]
-    },
-    {
-      "drawNo": 4087,
-      "date": "2025-11-17",
-      "winning": [3, 15, 24, 33, 41, 48],
-      "additional": 7,
-      "shares": [
-        { "group": 1, "prize": 1700000, "winners": 1 },
-        { "group": 2, "prize": 97000, "winners": 2 },
-        { "group": 3, "prize": 2950, "winners": 50 },
-        { "group": 4, "prize": 180, "winners": 915 },
-        { "group": 5, "prize": 50, "winners": 13400 },
-        { "group": 6, "prize": 25, "winners": 17600 }
-      ]
-    },
-    {
-      "drawNo": 4086,
-      "date": "2025-11-13",
-      "winning": [2, 7, 17, 28, 36, 43],
-      "additional": 22,
-      "shares": [
-        { "group": 1, "prize": 800000, "winners": 0 },
-        { "group": 2, "prize": 62000, "winners": 2 },
-        { "group": 3, "prize": 1800, "winners": 42 },
-        { "group": 4, "prize": 148, "winners": 825 },
-        { "group": 5, "prize": 50, "winners": 12200 },
-        { "group": 6, "prize": 25, "winners": 16200 }
-      ]
-    },
-    {
-      "drawNo": 4085,
-      "date": "2025-11-10",
-      "winning": [1, 12, 19, 32, 38, 45],
-      "additional": 25,
-      "shares": [
-        { "group": 1, "prize": 520000, "winners": 1 },
-        { "group": 2, "prize": 49000, "winners": 3 },
-        { "group": 3, "prize": 1400, "winners": 37 },
-        { "group": 4, "prize": 125, "winners": 765 },
-        { "group": 5, "prize": 50, "winners": 11500 },
-        { "group": 6, "prize": 25, "winners": 15300 }
-      ]
-    },
-    {
-      "drawNo": 4084,
-      "date": "2025-11-06",
-      "winning": [8, 14, 22, 27, 40, 49],
-      "additional": 34,
-      "shares": [
-        { "group": 1, "prize": 1150000, "winners": 0 },
-        { "group": 2, "prize": 80000, "winners": 1 },
-        { "group": 3, "prize": 2350, "winners": 46 },
-        { "group": 4, "prize": 165, "winners": 870 },
-        { "group": 5, "prize": 50, "winners": 12800 },
-        { "group": 6, "prize": 25, "winners": 16900 }
-      ]
-    },
-    {
-      "drawNo": 4083,
-      "date": "2025-11-03",
-      "winning": [5, 10, 16, 30, 34, 44],
-      "additional": 21,
-      "shares": [
-        { "group": 1, "prize": 680000, "winners": 1 },
-        { "group": 2, "prize": 56000, "winners": 2 },
-        { "group": 3, "prize": 1700, "winners": 41 },
-        { "group": 4, "prize": 140, "winners": 810 },
-        { "group": 5, "prize": 50, "winners": 12000 },
-        { "group": 6, "prize": 25, "winners": 15900 }
-      ]
-    },
-    {
-      "drawNo": 4082,
-      "date": "2025-10-30",
-      "winning": [9, 13, 25, 31, 39, 46],
-      "additional": 4,
-      "shares": [
-        { "group": 1, "prize": 440000, "winners": 0 },
-        { "group": 2, "prize": 44000, "winners": 2 },
-        { "group": 3, "prize": 1200, "winners": 35 },
-        { "group": 4, "prize": 115, "winners": 740 },
-        { "group": 5, "prize": 50, "winners": 11400 },
-        { "group": 6, "prize": 25, "winners": 15000 }
-      ]
-    },
-    {
-      "drawNo": 4081,
-      "date": "2025-10-27",
-      "winning": [6, 17, 23, 29, 42, 47],
-      "additional": 11,
-      "shares": [
-        { "group": 1, "prize": 900000, "winners": 1 },
-        { "group": 2, "prize": 67000, "winners": 1 },
-        { "group": 3, "prize": 2000, "winners": 43 },
-        { "group": 4, "prize": 155, "winners": 840 },
-        { "group": 5, "prize": 50, "winners": 12400 },
-        { "group": 6, "prize": 25, "winners": 16500 }
+        {
+          "group": 1,
+          "prize": 132518,
+          "winners": 106
+        },
+        {
+          "group": 2,
+          "prize": 1719,
+          "winners": 5625
+        },
+        {
+          "group": 3,
+          "prize": 373,
+          "winners": 103269
+        },
+        {
+          "group": 4,
+          "prize": 50,
+          "winners": 0
+        },
+        {
+          "group": 5,
+          "prize": 25,
+          "winners": 0
+        },
+        {
+          "group": 6,
+          "prize": 10,
+          "winners": 0
+        }
       ]
     }
   ]
